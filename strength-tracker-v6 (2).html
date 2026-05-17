@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Your Programme</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#fdf8f5; --surface:#fff; --card:#faf4f0; --border:#ecddd5;
+  --rose:#c4796a; --rose-light:#f9eeec; --terra:#b5614e;
+  --blush:#e8c4bb; --sage:#7a9980; --sage-light:#eef4f0;
+  --sand:#d4b896; --sand-light:#faf3ec;
+  --dark:#2c1f1a; --text:#3a2820; --muted:#9a8078; --warm:#fffaf7;
+  --purple-light:#f5eef8; --purple:#7a50a0;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;min-height:100vh;padding-bottom:80px;}
+
+/* HEADER */
+.header{background:var(--dark);padding:18px 18px 0;position:sticky;top:0;z-index:200;}
+.header-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
+.brand h1{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--blush);line-height:1;}
+.brand p{font-size:0.6rem;color:#a09088;letter-spacing:2px;text-transform:uppercase;margin-top:3px;}
+.week-chip{background:var(--rose);color:white;font-size:0.65rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:5px 13px;border-radius:20px;align-self:center;}
+.tab-row{display:flex;border-top:1px solid #3d2e28;}
+.tab-btn{flex:1;background:none;border:none;color:#7a6058;font-family:'Jost',sans-serif;font-size:0.65rem;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:11px 0;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;}
+.tab-btn.active{color:var(--blush);border-bottom-color:var(--rose);}
+
+/* WEEK PILLS */
+.week-pills{display:flex;gap:7px;padding:12px 16px;background:var(--warm);border-bottom:1px solid var(--border);}
+.wk-pill{flex:1;background:var(--surface);border:1.5px solid var(--border);color:var(--muted);font-family:'Jost',sans-serif;font-size:0.68rem;font-weight:600;padding:7px 4px;border-radius:20px;cursor:pointer;text-align:center;transition:all 0.18s;}
+.wk-pill.active{background:var(--rose);color:white;border-color:var(--rose);}
+
+.page{display:none;}.page.active{display:block;}
+
+/* WEEK BANNER */
+.week-banner{background:linear-gradient(135deg,var(--dark) 0%,#3d2820 100%);padding:16px 18px;}
+.wb-row{display:flex;justify-content:space-between;align-items:flex-start;}
+.wb-left h2{font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:var(--blush);font-weight:600;}
+.wb-left p{font-size:0.67rem;color:#a09088;margin-top:2px;line-height:1.4;max-width:230px;}
+.wb-stats{display:flex;gap:14px;text-align:right;flex-shrink:0;}
+.wbv{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--blush);line-height:1;}
+.wbl{font-size:0.55rem;text-transform:uppercase;letter-spacing:1px;color:#7a6058;}
+
+/* MUSCLE MAP STRIP */
+.muscle-map{background:#1a0e0a;padding:10px 16px;border-bottom:1px solid #3d2e28;}
+.mm-label{font-size:0.56rem;text-transform:uppercase;letter-spacing:1.5px;color:#6a5048;margin-bottom:6px;}
+.mm-row{display:flex;gap:5px;flex-wrap:wrap;}
+.mm-badge{font-size:0.58rem;font-weight:600;padding:3px 9px;border-radius:8px;letter-spacing:0.3px;}
+.mm-a{background:#3d1a1a;color:#e8b0a8;border:1px solid #5d2a2a;}
+.mm-b{background:#1a2a1a;color:#a8d0a8;border:1px solid #2a4a2a;}
+.mm-c{background:#2a2a1a;color:#d0c8a0;border:1px solid #4a4018;}
+.mm-d{background:#1a1a2a;color:#a8a8e0;border:1px solid #2a2a4a;}
+
+/* SCHEDULE */
+.sched{background:var(--sage-light);border-bottom:1px solid #c8ddc8;padding:8px 16px;display:flex;gap:5px;}
+.sd{font-size:0.62rem;font-weight:600;padding:4px 9px;border-radius:8px;border:1px solid #c8ddc8;color:#4a6a50;background:white;}
+.sd.lift{background:var(--rose-light);border-color:var(--blush);color:var(--terra);}
+.sd.pil{background:var(--sage-light);border-color:#b8d4b8;color:var(--sage);}
+
+/* SQUAT PROGRESSION BANNER */
+.squat-banner{background:linear-gradient(135deg,#f5eef8,#fce8f8);border-bottom:1px solid #e0c0e0;padding:10px 15px;display:flex;gap:9px;align-items:flex-start;}
+.squat-banner .sb-icon{font-size:1rem;flex-shrink:0;margin-top:1px;}
+.squat-banner p{font-size:0.68rem;color:#5a3060;line-height:1.5;}
+.squat-banner strong{color:#8a40b0;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:2px;}
+
+/* DAY CARDS */
+.days-wrap{padding:10px 14px;}
+.day-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:10px;overflow:hidden;}
+.day-card.done{border-color:#b8d4b8;}
+.day-card.pil-card{background:var(--sage-light);border-color:#c8ddc8;}
+.day-head{padding:13px 15px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;}
+.dh-left{display:flex;align-items:center;gap:9px;}
+.day-icon{font-size:1rem;}
+.day-name{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;color:var(--text);}
+.day-sub{font-size:0.64rem;color:var(--muted);margin-top:1px;}
+.day-prog{font-size:0.6rem;color:var(--muted);text-align:right;}
+.chev{font-size:0.6rem;color:var(--muted);margin-top:2px;transition:transform 0.2s;}
+.day-card.open .chev{transform:rotate(180deg);}
+.ex-body{display:none;border-top:1px solid var(--border);}
+.day-card.open .ex-body{display:block;}
+
+/* TIMING */
+.timing-row{background:var(--sand-light);border-bottom:1px solid #e8d8b8;padding:7px 15px;font-size:0.63rem;color:var(--terra);}
+
+/* EXERCISE */
+.ex-item{padding:13px 15px;border-bottom:1px solid #f5ede8;}
+.ex-item:last-of-type{border-bottom:none;}
+.ex-slot{font-size:0.56rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:3px;}
+.ex-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px;}
+.ex-name{font-weight:600;font-size:0.88rem;color:var(--text);line-height:1.3;}
+.how-btn{flex-shrink:0;background:var(--rose-light);border:1px solid var(--blush);color:var(--rose);font-family:'Jost',sans-serif;font-size:0.58rem;font-weight:600;padding:3px 9px;border-radius:8px;text-decoration:none;white-space:nowrap;}
+.ex-tags{display:flex;gap:4px;margin-bottom:5px;flex-wrap:wrap;}
+.tag{font-size:0.56rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;padding:2px 7px;border-radius:6px;}
+.tag-glute{background:#fdf0f8;color:#b040a0;border:1px solid #e0b0d8;}
+.tag-ham{background:#f0f0fd;color:#4040b0;border:1px solid #b0b0e0;}
+.tag-quad{background:#f0f8f0;color:#2a7a2a;border:1px solid #a0c8a0;}
+.tag-back{background:var(--sand-light);color:var(--terra);border:1px solid var(--sand);}
+.tag-shoulder{background:#fdf8e8;color:#a08020;border:1px solid #e0d090;}
+.tag-arms{background:var(--purple-light);color:var(--purple);border:1px solid #c8a8e0;}
+.tag-a{background:#fef0e8;color:#b05030;border:1px solid #e8c4a0;}
+.tag-h{background:#f5eef8;color:#7a50a0;border:1px solid #d4b8e8;}
+.tag-s{background:var(--card);color:var(--muted);border:1px solid var(--border);}
+.ex-tip{font-size:0.7rem;color:var(--muted);font-style:italic;line-height:1.5;margin-bottom:9px;}
+
+/* SETS */
+.set-hdr{display:grid;grid-template-columns:30px 1fr 1fr 76px 30px;gap:5px;font-size:0.56rem;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-bottom:4px;padding:0 1px;}
+.set-row{display:grid;grid-template-columns:30px 1fr 1fr 76px 30px;gap:5px;align-items:center;margin-bottom:4px;}
+.sn{font-size:0.62rem;color:var(--muted);font-weight:600;text-align:center;}
+.inp{background:var(--card);border:1.5px solid var(--border);color:var(--text);font-family:'Jost',sans-serif;font-size:0.83rem;font-weight:500;padding:7px 4px;border-radius:7px;width:100%;text-align:center;transition:border-color 0.15s;}
+.inp:focus{outline:none;border-color:var(--rose);background:white;}
+.inp.hv{border-color:var(--blush);background:var(--rose-light);}
+.tgt{font-size:0.62rem;color:var(--muted);text-align:center;line-height:1.3;}
+.tick{width:28px;height:28px;background:var(--card);border:1.5px solid var(--border);border-radius:50%;cursor:pointer;font-size:0.72rem;color:var(--muted);display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;}
+.tick.done{background:var(--sage);border-color:var(--sage);color:white;}
+
+/* VOLUME */
+.vol-mini{background:var(--sand-light);border:1px solid #e0ccb0;border-radius:7px;padding:6px 11px;margin-top:7px;display:flex;align-items:center;gap:7px;}
+.vl{font-size:0.58rem;color:var(--terra);text-transform:uppercase;letter-spacing:0.5px;}
+.vv{font-weight:700;color:var(--terra);font-size:0.82rem;}
+.vup{color:var(--sage);font-size:0.62rem;font-weight:600;}
+.vdn{color:var(--rose);font-size:0.62rem;font-weight:600;}
+
+/* SESSION FOOTER */
+.sess-foot{padding:13px 15px;background:var(--card);border-top:1px solid var(--border);display:flex;flex-direction:column;gap:11px;}
+.foot-lbl{font-size:0.58rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:3px;}
+.notes-ta{width:100%;background:var(--surface);border:1.5px solid var(--border);color:var(--text);font-family:'Jost',sans-serif;font-size:0.78rem;padding:8px 10px;border-radius:9px;resize:none;min-height:48px;}
+.notes-ta:focus{outline:none;border-color:var(--rose);}
+.energy-btns{display:flex;gap:5px;}
+.e-btn{flex:1;background:var(--surface);border:1.5px solid var(--border);border-radius:9px;padding:6px 2px;cursor:pointer;font-family:'Jost',sans-serif;font-size:0.6rem;text-align:center;color:var(--muted);line-height:1.4;}
+.e-btn span{font-size:0.95rem;display:block;}
+.e-btn.e1{background:#fdf0ef;border-color:#e8b0a8;color:var(--terra);}
+.e-btn.e2{background:#fdf5ec;border-color:#e0c090;color:#a07030;}
+.e-btn.e3{background:#fdfaf0;border-color:#d8c870;color:#807020;}
+.e-btn.e4{background:var(--sage-light);border-color:#b8d4b8;color:var(--sage);}
+.e-btn.e5{background:#eef5ee;border-color:#90c890;color:#2a7a40;}
+.cycle-btns{display:flex;gap:4px;flex-wrap:wrap;}
+.c-btn{flex:1;min-width:68px;background:var(--surface);border:1.5px solid var(--border);border-radius:9px;padding:5px 3px;cursor:pointer;font-family:'Jost',sans-serif;font-size:0.6rem;text-align:center;color:var(--muted);}
+.c-btn.sel{background:var(--purple-light);border-color:#c8a8e0;color:var(--purple);}
+.done-btn{width:100%;background:var(--rose);color:white;border:none;font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;padding:12px;border-radius:11px;cursor:pointer;}
+.done-btn.done{background:var(--sage);}
+
+/* NUTRITION */
+.nutri-hero{background:linear-gradient(160deg,var(--dark) 0%,#4a2e28 100%);padding:20px 18px;}
+.nutri-hero h2{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:var(--blush);}
+.nutri-hero p{font-size:0.7rem;color:#a09088;margin-top:4px;line-height:1.5;}
+.targets-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin:12px 14px 0;border-radius:12px;overflow:hidden;}
+.t-card{background:var(--surface);padding:12px 6px;text-align:center;}
+.t-val{font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--rose);}
+.t-lbl{font-size:0.56rem;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-top:2px;}
+.nutri-tip{background:var(--rose-light);border-left:3px solid var(--rose);margin:11px 14px;padding:10px 13px;border-radius:0 9px 9px 0;font-size:0.71rem;color:var(--text);line-height:1.6;}
+.nutri-tip strong{color:var(--rose);font-size:0.6rem;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:2px;}
+.pcheat{background:var(--sand-light);border:1px solid #e0ccb0;border-radius:11px;padding:13px;margin:0 14px 12px;}
+.pcheat h4{font-size:0.73rem;font-weight:700;color:var(--terra);margin-bottom:7px;}
+.pcheat li{font-size:0.71rem;color:var(--text);padding:2px 0;display:flex;gap:5px;list-style:none;}
+.pcheat li::before{content:"→";color:var(--sand);flex-shrink:0;}
+.nutri-log{padding:0 14px;}
+.wk-head{font-size:0.62rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);padding:10px 0 4px;}
+.nutri-day{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:13px;margin-bottom:8px;}
+.nd-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;}
+.nd-head h4{font-weight:600;font-size:0.83rem;}
+.nd-head span{font-size:0.66rem;color:var(--muted);}
+.nd-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:7px;}
+.nf label{font-size:0.56rem;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);display:block;margin-bottom:2px;}
+.nf input{width:100%;background:var(--card);border:1.5px solid var(--border);color:var(--text);font-family:'Jost',sans-serif;font-size:0.86rem;font-weight:600;padding:7px 9px;border-radius:7px;}
+.nf input:focus{outline:none;border-color:var(--rose);}
+.pbar-wrap{margin-top:3px;}
+.pbar-lbl{display:flex;justify-content:space-between;font-size:0.6rem;color:var(--muted);margin-bottom:2px;}
+.pbar-bg{background:var(--card);border-radius:10px;height:5px;overflow:hidden;}
+.pbar-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--rose),var(--sage));transition:width 0.3s;}
+.nn label{font-size:0.56rem;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);display:block;margin-bottom:2px;margin-top:7px;}
+.nn textarea{width:100%;background:var(--card);border:1.5px solid var(--border);color:var(--text);font-family:'Jost',sans-serif;font-size:0.73rem;padding:6px 9px;border-radius:7px;resize:none;min-height:38px;}
+.nn textarea:focus{outline:none;border-color:var(--rose);}
+
+/* PROGRESS */
+.prog-page{padding:14px;}
+.prog-h{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--text);margin-bottom:5px;}
+.prog-sub{font-size:0.68rem;color:var(--muted);margin-bottom:9px;line-height:1.4;}
+.data-table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:11px;overflow:hidden;margin-bottom:16px;}
+.data-table th{background:var(--dark);color:var(--blush);font-size:0.58rem;text-transform:uppercase;letter-spacing:1px;padding:8px 9px;text-align:left;font-weight:600;}
+.data-table td{padding:8px 9px;font-size:0.74rem;border-bottom:1px solid #f5ede8;color:var(--text);}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table tr:nth-child(even) td{background:#fdfaf8;}
+.up{color:var(--sage);font-weight:700;}.dn{color:var(--rose);font-weight:700;}
+.cycle-card{background:linear-gradient(135deg,#f8f0fc,#fce8f8);border:1px solid #e8c0e8;border-radius:11px;padding:13px;margin-bottom:13px;}
+.cycle-card h4{font-family:'Cormorant Garamond',serif;font-size:1rem;color:#7a40a0;margin-bottom:6px;}
+.cycle-card p{font-size:0.7rem;color:#5a3070;line-height:1.65;}
+.empty{text-align:center;padding:24px 14px;color:var(--muted);font-style:italic;font-size:0.76rem;}
+.start-weight{display:flex;align-items:center;gap:6px;background:linear-gradient(90deg,#fdf5e8,#fdf8f0);border:1px solid #e8d4a8;border-radius:7px;padding:6px 10px;margin-bottom:8px;font-size:0.68rem;color:#8a6020;}
+.start-weight .sw-label{font-weight:600;text-transform:uppercase;letter-spacing:0.5px;font-size:0.58rem;color:#a07030;flex-shrink:0;}
+.start-weight .sw-val{color:#3a2820;font-weight:600;}
+.start-weight .sw-note{color:var(--muted);font-size:0.63rem;}
+
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:0;right:0;background:var(--dark);border-top:1px solid #3d2e28;display:flex;padding:8px 0 calc(8px + env(safe-area-inset-bottom));z-index:300;}
+.bn{flex:1;background:none;border:none;color:#6a5048;cursor:pointer;font-family:'Jost',sans-serif;font-size:0.52rem;text-transform:uppercase;letter-spacing:0.5px;padding:4px 0;display:flex;flex-direction:column;align-items:center;gap:3px;transition:color 0.2s;}
+.bn.active{color:var(--blush);}
+.bn-i{font-size:1.1rem;}
+.exp-row{padding:14px;display:flex;gap:7px;}
+.exp-btn{flex:1;padding:10px;border-radius:9px;border:1.5px solid var(--border);background:var(--surface);color:var(--text);font-family:'Jost',sans-serif;font-size:0.73rem;font-weight:600;cursor:pointer;}
+.exp-btn.primary{background:var(--rose);color:white;border-color:var(--rose);}
+
+/* FOOD SCANNER */
+.scan-page{padding:0 0 20px;}
+.scan-hero{background:linear-gradient(160deg,var(--dark) 0%,#4a2e28 100%);padding:20px 18px;}
+.scan-hero h2{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:var(--blush);}
+.scan-hero p{font-size:0.7rem;color:#a09088;margin-top:4px;line-height:1.5;}
+.scan-body{padding:14px;}
+.scan-upload-box{border:2px dashed var(--border);border-radius:14px;background:var(--surface);padding:28px 20px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;}
+.scan-upload-box:active{border-color:var(--rose);background:var(--rose-light);}
+.scan-upload-box input{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:100px;}
+.scan-icon{font-size:2.5rem;margin-bottom:8px;}
+.scan-upload-box h3{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--text);margin-bottom:4px;}
+.scan-upload-box p{font-size:0.7rem;color:var(--muted);line-height:1.5;}
+.scan-preview{width:100%;border-radius:12px;margin:14px 0;display:none;max-height:260px;object-fit:cover;}
+.scan-preview.show{display:block;}
+.scan-note-field{margin:12px 0;}
+.scan-note-field label{font-size:0.6rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);display:block;margin-bottom:4px;}
+.scan-note-field textarea{width:100%;background:var(--surface);border:1.5px solid var(--border);color:var(--text);font-family:'Jost',sans-serif;font-size:0.8rem;padding:9px 11px;border-radius:10px;resize:none;min-height:52px;}
+.scan-note-field textarea:focus{outline:none;border-color:var(--rose);}
+.scan-btn{width:100%;background:var(--rose);color:white;border:none;font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;padding:14px;border-radius:12px;cursor:pointer;margin-top:4px;transition:opacity 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.scan-btn:disabled{opacity:0.5;cursor:not-allowed;}
+.scan-btn:active:not(:disabled){opacity:0.8;}
+.scan-loading{display:none;text-align:center;padding:24px;color:var(--muted);}
+.scan-loading.show{display:block;}
+.scan-spinner{font-size:2rem;animation:spin 1s linear infinite;display:block;margin-bottom:8px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.scan-loading p{font-size:0.75rem;color:var(--muted);}
+.scan-result{display:none;background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-top:14px;}
+.scan-result.show{display:block;}
+.scan-result-header{background:linear-gradient(135deg,var(--dark),#3d2820);padding:14px 16px;display:flex;justify-content:space-between;align-items:center;}
+.scan-result-header h3{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--blush);}
+.scan-result-header span{font-size:0.62rem;color:#a09088;}
+.macro-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);}
+.macro-card{background:var(--surface);padding:12px 6px;text-align:center;}
+.macro-val{font-family:'Cormorant Garamond',serif;font-size:1.4rem;line-height:1;}
+.macro-lbl{font-size:0.55rem;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-top:2px;}
+.macro-val.kcal{color:var(--terra);}
+.macro-val.prot{color:#4040b0;}
+.macro-val.carb{color:#2a7a2a;}
+.macro-val.fat{color:#a07030;}
+.scan-analysis{padding:14px 16px;font-size:0.76rem;color:var(--text);line-height:1.7;border-top:1px solid var(--border);}
+.scan-analysis strong{color:var(--rose);font-size:0.62rem;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:6px;}
+.scan-daily-bar{padding:12px 16px;border-top:1px solid var(--border);background:var(--card);}
+.sdb-label{display:flex;justify-content:space-between;font-size:0.62rem;color:var(--muted);margin-bottom:4px;}
+.sdb-bg{background:var(--border);border-radius:10px;height:7px;overflow:hidden;}
+.sdb-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--rose),var(--sage));transition:width 0.4s;}
+.scan-save-btn{margin:12px 16px;width:calc(100% - 32px);background:var(--sage);color:white;border:none;font-family:'Jost',sans-serif;font-size:0.82rem;font-weight:600;padding:11px;border-radius:10px;cursor:pointer;}
+.scan-history{margin-top:20px;}
+.scan-history h3{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--text);margin-bottom:10px;}
+.scan-log-item{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:12px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+.sli-left h4{font-size:0.82rem;font-weight:600;color:var(--text);margin-bottom:2px;}
+.sli-left p{font-size:0.68rem;color:var(--muted);line-height:1.4;}
+.sli-right{text-align:right;flex-shrink:0;}
+.sli-kcal{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--terra);}
+.sli-prot{font-size:0.65rem;color:#4040b0;font-weight:600;}
+.sli-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.7rem;margin-top:4px;display:block;}
+.today-totals{background:linear-gradient(135deg,var(--dark),#3d2820);border-radius:12px;padding:14px 16px;margin-bottom:14px;}
+.today-totals h4{font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:var(--blush);margin-bottom:10px;}
+.tt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.tt-item{text-align:center;}
+.tt-val{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--blush);}
+.tt-lbl{font-size:0.52rem;text-transform:uppercase;letter-spacing:0.5px;color:#7a6058;}
+.tt-target{font-size:0.55rem;color:#a09088;margin-top:1px;}
+.empty-scan{text-align:center;padding:24px 14px;color:var(--muted);font-style:italic;font-size:0.76rem;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="brand">
+      <h1>Your Programme</h1>
+      <p>4 weeks · Balanced · 60–75 min</p>
+    </div>
+    <div class="week-chip" id="weekChip">Week 1</div>
+  </div>
+  <div class="tab-row">
+    <button class="tab-btn active" onclick="showPage('train')">Train</button>
+    <button class="tab-btn" onclick="showPage('nutrition')">Nutrition</button>
+    <button class="tab-btn" onclick="showPage('progress')">Progress</button>
+  </div>
+</div>
+
+<div class="page active" id="page-train">
+  <div class="week-pills">
+    <button class="wk-pill active" onclick="sw(1)">Week 1</button>
+    <button class="wk-pill" onclick="sw(2)">Week 2</button>
+    <button class="wk-pill" onclick="sw(3)">Week 3</button>
+    <button class="wk-pill" onclick="sw(4)">Week 4</button>
+  </div>
+  <div id="trainContent"></div>
+</div>
+
+<div class="page" id="page-nutrition">
+  <div class="nutri-hero">
+    <h2>Nutrition Log</h2>
+    <p>Track your daily calories, protein, carbs and fat. Protein is the priority — hit 100g every day.</p>
+  </div>
+
+  <!-- TARGETS REMINDER -->
+  <div style="padding:12px 14px 0;">
+    <div class="targets-row">
+      <div class="t-card"><div class="t-val">1,900</div><div class="t-lbl">kcal training</div></div>
+      <div class="t-card"><div class="t-val">100g+</div><div class="t-lbl">Protein daily</div></div>
+      <div class="t-card"><div class="t-val">1,600</div><div class="t-lbl">kcal rest day</div></div>
+    </div>
+  </div>
+
+  <!-- WEEK SELECTOR -->
+  <div style="padding:12px 14px 4px;">
+    <div style="display:flex;gap:6px;overflow-x:auto;">
+      <button class="wk-pill active" id="nwk1" onclick="switchNutriWeek(1)">Week 1</button>
+      <button class="wk-pill" id="nwk2" onclick="switchNutriWeek(2)">Week 2</button>
+      <button class="wk-pill" id="nwk3" onclick="switchNutriWeek(3)">Week 3</button>
+      <button class="wk-pill" id="nwk4" onclick="switchNutriWeek(4)">Week 4</button>
+    </div>
+  </div>
+
+  <div class="nutri-log" id="nutriLog" style="padding:0 14px 14px;"></div>
+
+  <div class="exp-row">
+    <button class="exp-btn primary" onclick="exportNutrition()">Export Nutrition Log</button>
+  </div>
+</div>
+
+<div class="page" id="page-progress">
+  <div class="prog-page">
+    <div class="cycle-card">
+      <h4>Training with your cycle</h4>
+      <p>
+        <strong>Follicular (Days 1–13):</strong> Oestrogen rising — strength, motivation and recovery are building. Great time to push heavier and try new movements.<br><br>
+        <strong>Ovulation (Day 14):</strong> Peak strength and drive. Your best sessions often fall here.<br><br>
+        <strong>Luteal (Days 15–28):</strong> Progesterone rises — you may feel heavier and fatigue faster. Completely normal. Prioritise showing up over hitting PRs.<br><br>
+        <strong>Menstrual (Days 1–5):</strong> Energy often lower. Focus on movement quality. The fact you're there is the win.
+      </p>
+    </div>
+    <h3 class="prog-h">Session Volume</h3>
+    <p class="prog-sub">Total kg lifted (weight × reps × sets). Log your weights to see this build.</p>
+    <div id="volumeTable"></div>
+    <h3 class="prog-h" style="margin-top:16px">Energy & Cycle Log</h3>
+    <p class="prog-sub">Patterns emerge over weeks. Keep logging.</p>
+    <div id="energyLog"></div>
+    <div class="exp-row">
+      <button class="exp-btn" onclick="clearAll()">Clear All</button>
+      <button class="exp-btn primary" onclick="exportAll()">Export Full Log</button>
+    </div>
+
+    <!-- BACKUP & RESTORE -->
+    <div style="margin:0 0 20px;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+      <div style="background:var(--dark);padding:12px 16px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--blush);margin-bottom:2px;">Backup & Restore</div>
+        <div style="font-size:0.65rem;color:#a09088;">Save all your data before switching URLs or devices</div>
+      </div>
+      <div style="padding:14px 16px;display:flex;flex-direction:column;gap:10px;">
+        <button class="exp-btn primary" onclick="backupAllData()" style="width:100%;padding:12px;">
+          💾 Backup — Download All My Data
+        </button>
+        <div style="font-size:0.68rem;color:var(--muted);text-align:center;">— or restore from a previous backup —</div>
+        <label style="display:flex;align-items:center;justify-content:center;gap:8px;background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;font-family:'Jost',sans-serif;font-size:0.78rem;font-weight:600;color:var(--text);">
+          📂 Restore — Upload Backup File
+          <input type="file" accept=".json" style="display:none" onchange="restoreFromBackup(this)">
+        </label>
+        <div id="restoreMsg" style="display:none;font-size:0.72rem;text-align:center;padding:8px;border-radius:8px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bnav">
+  <button class="bn active" onclick="showPage('train')"><span class="bn-i">🏋️</span>Train</button>
+  <button class="bn" onclick="showPage('nutrition')"><span class="bn-i">🌿</span>Nutrition</button>
+  <button class="bn" onclick="showPage('progress')"><span class="bn-i">📊</span>Progress</button>
+</div>
+
+<script>
+// ================================================================
+// SESSION STRUCTURE — 5 exercises per session, ~65–75 min
+//
+// SLOT 1: Squat pattern    — Glutes + Quads (2x/week)
+// SLOT 2: Hinge pattern    — Hamstrings + Glutes (2x/week RDL, 1x/week hip thrust)
+// SLOT 3: Pull             — Back + Biceps (every session)
+// SLOT 4: Push             — Shoulders or incline press (not flat bench)
+// SLOT 5: Isolation        — Rotating: Triceps / Glute kickback / Lateral raises / Biceps
+//
+// Hip flexor stretch closes every session — non-negotiable
+//
+// SQUAT PROGRESSION:
+// W1: Goblet Squat
+// W2: Front Foot Elevated Split Squat
+// W3: Bulgarian Split Squat
+// W4: Barbell Back Squat
+//
+// HIP THRUST: Monday + Saturday only (2x/week, not 3)
+// RDL: Friday (hinge day)
+// Triceps: every session in slot 5 or 4, rotating with other isolations
+// ================================================================
+
+const P = { weeks: [
+
+// ══════════════════════════════════════════════════════
+// WEEK 1 — Foundation · 3×10–12 · Learn the movements
+// ══════════════════════════════════════════════════════
+{ num:1, theme:"Foundation", focus:"3 sets · 10–12 reps · Build the movement patterns",
+  squat:"Week 1 — Goblet Squat: Hold a dumbbell at your chest. Feet shoulder-width, toes out slightly. Sit down between your knees. Heels on plates if ankle is stiff. This teaches your body the squat pattern safely.",
+  muscleWeek:"Glutes & Hamstrings 2× · Quads 2× · Back 3× · Shoulders 2× · Triceps 2× · Biceps 1×",
+  days:[
+  { id:"w1a", day:"Monday", label:"Lift A", icon:"💪",
+    focus:"Squat + Hip Thrust + Pull",
+    timing:"~65 min · 2 min rest compounds · 60 sec isolations",
+    exercises:[
+      { name:"Goblet Squat", sets:3, reps:"10", muscles:["quad","glute"], ankleTag:true, startKg:"10–12kg DB", startNote:"movement first, load second",
+        tip:"Hold DB at chest. Sit between knees, not back. Heels elevated on plates if ankle is stiff. Drive through your full foot to stand.",
+        link:"https://www.youtube.com/results?search_query=goblet+squat+form+tutorial" },
+      { name:"Hip Thrust", sets:3, reps:"12", muscles:["glute"], startKg:"15–20kg DB", startNote:"glutes are strong — you'll progress fast",
+        tip:"Upper back on bench, DB across hips, feet flat. Drive through heels, squeeze hard at the top — hold 1 sec. Don't hyperextend lower back.",
+        link:"https://www.youtube.com/results?search_query=dumbbell+hip+thrust+tutorial" },
+      { name:"Lat Pulldown (Wide Grip)", sets:3, reps:"10", muscles:["back"], startKg:"20–25kg", startNote:"full range matters more than load",
+        tip:"Pull to upper chest. Full stretch at top — let lats lengthen. Slight lean back. Control the return.",
+        link:"https://www.youtube.com/results?search_query=lat+pulldown+form+tutorial" },
+      { name:"Dumbbell Shoulder Press", sets:3, reps:"12", muscles:["shoulder"], startKg:"6–8kg DBs", startNote:"shoulders fatigue fast — go lighter than you think",
+        tip:"Seated. Lower to ear level — full range. Controlled press. Don't arch your back.",
+        link:"https://www.youtube.com/results?search_query=seated+dumbbell+shoulder+press+tutorial" },
+      { name:"Tricep Rope Pushdown", sets:3, reps:"12", muscles:["arms"], startKg:"10–12kg", startNote:"elbows stay pinned — form breaks if too heavy",
+        tip:"Elbows pinned to sides. Fully extend at the bottom. 3-sec return. Triceps make up 2/3 of your upper arm — don't skip these.",
+        link:"https://www.youtube.com/results?search_query=tricep+rope+pushdown+form" },
+      { name:"Hip Flexor Stretch", sets:1, reps:"60s each side", muscles:[], hipTag:true, noSets:true,
+        tip:"⚠️ Hip — low lunge, tuck pelvis under. Every single session. Non-negotiable.",
+        link:"https://www.youtube.com/results?search_query=hip+flexor+lunge+stretch" },
+    ]},
+  { id:"w1p", day:"Wednesday", label:"Reformer Pilates", icon:"🌸", pilates:true,
+    focus:"Studio class · Active recovery · Great for hip flexors and ankle stability" },
+  { id:"w1b", day:"Friday", label:"Lift B", icon:"🌿",
+    focus:"Hinge + Pull + Lateral chain",
+    timing:"~65 min",
+    exercises:[
+      { name:"Romanian Deadlift (RDL)", sets:3, reps:"10", muscles:["ham","glute"], hipTag:true, startKg:"2 × 10kg DBs", startNote:"the stretch limits you more than strength at first",
+        tip:"⚠️ Hip — push hips back, flat back throughout. 3-sec descent. Deep hamstring stretch at the bottom. Your primary hamstring movement.",
+        link:"https://www.youtube.com/results?search_query=romanian+deadlift+form+women" },
+      { name:"Leg Press", sets:3, reps:"10", muscles:["quad","glute"], ankleTag:true, startKg:"30–40kg", startNote:"will feel light — increase 5–10kg each week",
+        tip:"⚠️ Ankle — feet higher on plate reduces ankle stress. Full controlled depth. Your ankle-friendly quad compound.",
+        link:"https://www.youtube.com/results?search_query=leg+press+form+foot+position" },
+      { name:"Seated Cable Row", sets:3, reps:"12", muscles:["back"], startKg:"15–20kg", startNote:"feel the back working before adding load",
+        tip:"Squeeze shoulder blades together. Controlled return. Don't round your lower back. Drive elbows back.",
+        link:"https://www.youtube.com/results?search_query=seated+cable+row+tutorial" },
+      { name:"Lateral Raises", sets:3, reps:"15", muscles:["shoulder"], startKg:"3–4kg DBs", startNote:"seriously — even very fit women start here",
+        tip:"Lead with elbows. No shrugging. 3-sec lowering. 2–4kg is normal to start — it's a precision movement.",
+        link:"https://www.youtube.com/results?search_query=lateral+raise+form+tutorial" },
+      { name:"Overhead Tricep Extension (Cable or DB)", sets:3, reps:"12", muscles:["arms"], startKg:"10–12kg", startNote:"hits the long head — biggest part of the tricep",
+        tip:"Full stretch overhead — this position hits the long head of the tricep, the biggest portion. Control the eccentric.",
+        link:"https://www.youtube.com/results?search_query=overhead+tricep+extension+tutorial" },
+      { name:"Hip Flexor Stretch", sets:1, reps:"60s each side", muscles:[], hipTag:true, noSets:true,
+        tip:"⚠️ Hip — especially after RDLs. Always close with this.",
+        link:"https://www.youtube.com/results?search_query=hip+flexor+lunge+stretch" },
+    ]},
+  { id:"w1c", day:"Saturday", label:"Lift C", icon:"✨",
+    focus:"Squat + Hip Thrust + Arms",
+    timing:"~65 min",
+    exercises:[
+      { name:"Goblet Squat", sets:3, reps:"12", muscles:["quad","glute"], ankleTag:true, startKg:"10–12kg DB", startNote:"same as Monday — more reps, same weight",
+        tip:"⚠️ Ankle — second squat session this week. More reps, same weight. Focus on depth and control. It should feel more natural than Monday.",
+        link:"https://www.youtube.com/results?search_query=goblet+squat+form+tutorial" },
+      { name:"Hip Thrust", sets:3, reps:"12", muscles:["glute"], startKg:"15–20kg DB", startNote:"try a little more than Monday if it felt easy",
+        tip:"Same as Monday but aim for a little more weight or a tighter squeeze. Two hip thrust sessions per week — this is your glute volume.",
+        link:"https://www.youtube.com/results?search_query=dumbbell+hip+thrust+tutorial" },
+      { name:"Single-Arm Dumbbell Row", sets:3, reps:"10ea", muscles:["back"], startKg:"8–10kg DB", startNote:"go lighter than you think — form breaks fast",
+        tip:"Brace on bench. Drive elbow to hip — long range. Corrects left-right imbalances. Important movement early in training.",
+        link:"https://www.youtube.com/results?search_query=single+arm+dumbbell+row+tutorial" },
+      { name:"Leg Curl (Machine)", sets:3, reps:"12", muscles:["ham"], startKg:"15–20kg", startNote:"pause and squeeze at the top every rep",
+        tip:"Ankle-friendly hamstring isolation. Pause and squeeze at the top. 3-sec eccentric. Second hamstring session of the week.",
+        link:"https://www.youtube.com/results?search_query=lying+leg+curl+machine+form" },
+      { name:"EZ-Bar Bicep Curl", sets:3, reps:"12", muscles:["arms"], startKg:"10–12kg EZ bar", startNote:"all your pulling already pre-fatigues biceps",
+        tip:"Elbows tucked. Full range. 3-sec eccentric. Biceps in Saturday's slot — triceps had Monday and Friday, biceps get Saturday.",
+        link:"https://www.youtube.com/results?search_query=ez+bar+bicep+curl+form" },
+      { name:"Hip Flexor Stretch + Seated Calf Raise", sets:1, reps:"60s / 20 reps", muscles:[], hipTag:true, ankleTag:true, noSets:true,
+        tip:"⚠️ Ankle + Hip — close Saturday sessions with both. Calf raise: slow tempo, full range, seated only.",
+        link:"https://www.youtube.com/results?search_query=seated+calf+raise+hip+flexor+stretch" },
+    ]},
+]},
+
+// ══════════════════════════════════════════════════════
+// WEEK 2 — Volume · 4×8–10 · Progressive overload
+// ══════════════════════════════════════════════════════
+{ num:2, theme:"Volume", focus:"4 sets · 8–10 reps · Beat Week 1 weights across the board",
+  squat:"Week 2 — Front Foot Elevated Split Squat: Front foot on a step or plate. Dumbbells in each hand. Lower back knee toward the floor. More glute and quad range than the goblet squat. Ankle stays more neutral.",
+  muscleWeek:"Glutes & Hamstrings 2× · Quads 2× · Back 3× · Shoulders 2× · Triceps 2× · Biceps 1×",
+  days:[
+  { id:"w2a", day:"Monday", label:"Lift A", icon:"💪",
+    focus:"Squat + Hip Thrust + Pull",
+    timing:"~70 min · Extra set on main lifts",
+    exercises:[
+      { name:"Front Foot Elevated Split Squat", sets:3, reps:"10ea", muscles:["quad","glute"], ankleTag:true, startKg:"2 × 6–8kg DBs", startNote:"new movement — start lighter than W1 goblet squat",
+        tip:"⚠️ Ankle — front foot elevated reduces ankle demand. Lower slowly — 2-sec descent. Keep front shin fairly vertical. This is a big step up from the goblet squat — start lighter than you think.",
+        link:"https://www.youtube.com/results?search_query=front+foot+elevated+split+squat+tutorial" },
+      { name:"Hip Thrust", sets:4, reps:"10", muscles:["glute"], startKg:"20–25kg DB", startNote:"+5kg from Week 1",
+        tip:"Beat Week 1 weight. Extra set. 1-sec hold at the top, every rep. This is the movement most responsible for glute development.",
+        link:"https://www.youtube.com/results?search_query=dumbbell+hip+thrust+tutorial" },
+      { name:"Lat Pulldown (Wide Grip)", sets:4, reps:"8", muscles:["back"], startKg:"25–30kg", startNote:"+5kg from Week 1",
+        tip:"Beat W1 weight. Extra set. 3-sec eccentric — let the lats fully lengthen each rep.",
+        link:"https://www.youtube.com/results?search_query=lat+pulldown+form+tutorial" },
+      { name:"Dumbbell Shoulder Press", sets:3, reps:"10", muscles:["shoulder"], startKg:"8–10kg DBs", startNote:"+2kg from Week 1",
+        tip:"Beat W1 weight. Full range. No half-reps.",
+        link:"https://www.youtube.com/results?search_query=seated+dumbbell+shoulder+press+tutorial" },
+      { name:"Tricep Rope Pushdown", sets:4, reps:"10", muscles:["arms"], startKg:"12–15kg", startNote:"+2–3kg from Week 1",
+        tip:"Extra set vs W1. Beat W1 weight. 3-sec return. Elbows stay pinned.",
+        link:"https://www.youtube.com/results?search_query=tricep+rope+pushdown+form" },
+      { name:"Hip Flexor Stretch", sets:1, reps:"60s each side", muscles:[], hipTag:true, noSets:true,
+        tip:"⚠️ Hip — especially after split squats. Notice any improvement in range vs W1?",
+        link:"https://www.youtube.com/results?search_query=hip+flexor+lunge+stretch" },
+    ]},
+  { id:"w2p", day:"Wednesday", label:"Reformer Pilates", icon:"🌸", pilates:true,
+    focus:"Studio class · Active recovery · Mid-week reset" },
+  { id:"w2b", day:"Friday", label:"Lift B", icon:"🌿",
+    focus:"Hinge + Pull + Lateral chain",
+    timing:"~70 min",
+    exercises:[
+      { name:"Romanian Deadlift (RDL)", sets:4, reps:"8", muscles:["ham","glute"], hipTag:true, startKg:"2 × 12kg DBs", startNote:"+2kg each side from Week 1",
+        tip:"⚠️ Hip — beat W1 weight. Extra set. 3-sec descent. Heavier = more hamstring stretch. Don't round the back.",
+        link:"https://www.youtube.com/results?search_query=romanian+deadlift+form+women" },
+      { name:"Leg Press", sets:4, reps:"10", muscles:["quad","glute"], ankleTag:true, startKg:"40–50kg", startNote:"+10kg from Week 1",
+        tip:"⚠️ Ankle — beat W1. Extra set. Same foot position. 3-sec eccentric.",
+        link:"https://www.youtube.com/results?search_query=leg+press+form+foot+position" },
+      { name:"Barbell Bent-Over Row", sets:4, reps:"8", muscles:["back"], startKg:"20kg barbell", startNote:"new movement — form before load",
+        tip:"Hinge ~45°. Pull to lower chest. Flat back. Squeeze at the top. More load potential than cable row.",
+        link:"https://www.youtube.com/results?search_query=barbell+bent+over+row+form" },
+      { name:"Lateral Raises", sets:3, reps:"12", muscles:["shoulder"], startKg:"4–5kg DBs", startNote:"+1kg from Week 1",
+        tip:"Add a drop set on the final set — to failure, halve the weight, go again. Builds shoulder definition.",
+        link:"https://www.youtube.com/results?search_query=lateral+raise+form+tutorial" },
+      { name:"Overhead Tricep Extension", sets:4, reps:"10", muscles:["arms"], startKg:"12–15kg", startNote:"+2kg from Week 1",
+        tip:"Extra set vs W1. Beat W1 weight. Full stretch at the top — long head of tricep.",
+        link:"https://www.youtube.com/results?search_query=overhead+tricep+extension+tutorial" },
+      { name:"Hip Flexor Stretch", sets:1, reps:"60s each side", muscles:[], hipTag:true, noSets:true,
+        tip:"⚠️ Hip — every session.",
+        link:"https://www.youtube.com/results?search_query=hip+flexor+lunge+stretch" },
+    ]},
+  { id:"w2c", day:"Saturday", label:"Lift C", icon:"✨",
+    focus:"Squat + Hip Thrust + Arms",
+    timing:"~70 min",
+    exercises:[
+      { name:"Front Foot Elevated Split Squat", sets:4, reps:"10ea", muscles:["quad","glute"], ankleTag:true, startKg:"2 × 8–10kg DBs", startNote:"+2kg from Monday",
+        tip:"⚠️ Ankle — extra set vs Monday. Beat Monday's weight if you can. Your legs will be more fatigued mid-week, which is why Saturday is slightly harder.",
+        link:"https://www.youtube.com/results?search_query=front+foot+elevated+split+squat+tutorial" },
+      { name:"Hip Thrust", sets:4, reps:"10", muscles:["glute"], startKg:"20–25kg DB", startNote:"try to beat Monday's weight",
+        tip:"Beat Monday's weight. This is the most important lift of your week. Really feel the glute squeeze at the top.",
+        link:"https://www.youtube.com/results?search_query=dumbbell+hip+thrust+tutorial" },
+      { name:"Single-Arm Dumbbell Row", sets:4, reps:"8ea", muscles:["back"], startKg:"10–12kg DB", startNote:"+2kg from Week 1",
+        tip:"Beat W1. Extra set. Drive elbow to hip, long range. Feel the back working.",
+        link:"https://www.youtube.com/results?search_query=single+arm+dumbbell+row+tutorial" },
+      { name:"Leg Curl", sets:3, reps:"12", muscles:["ham"], startKg:"20–25kg", startNote:"+5kg from Week 1",
+        tip:"Beat W1. 3-sec eccentric. Second hamstring session — good for development.",
+        link:"https://www.youtube.com/results?search_query=lying+leg+curl+machine+form" },
+      { name:"EZ-Bar Bicep Curl", sets:3, reps:"10", muscles:["arms"], startKg:"12–14kg EZ bar", startNote:"+2kg from Week 1",
+        tip:"Beat W1. 3-sec eccentric. Biceps close the week — all the back work already pre-fatigues them.",
+        link:"https://www.youtube.com/results?search_query=ez+bar+bicep+curl+form" },
+      { name:"Hip Flexor Stretch + Seated Calf Raise", sets:1, reps:"60s / 20 reps", muscles:[], hipTag:true, ankleTag:true, noSets:true,
+        tip:"⚠️ Ankle + Hip — close every Saturday session with both of these.",
+        link:"https://www.youtube.com/results?search_query=seated+calf+raise+hip+flexor+stretch" },
+    ]},
+]},
+
+// ══════════════════════════════════════════════════════
+// WEEK 3 — Intensify · 4×6–8 · Heaviest loads
+// ══════════════════════════════════════════════════════
+{ num:3, theme:"Intensify", focus:"4 sets · 6–8 reps · Heaviest week · 3-sec eccentric every compound",
+  squat:"Week 3 — Bulgarian Split Squat: Back foot elevated on a bench. Front foot far enough forward that your knee stays behind your toes. Dumbbells in each hand. Lower slowly — 3-sec descent. Start lighter than you expect — this is a demanding movement.",
+  muscleWeek:"Glutes & Hamstrings 2× · Quads 2× · Back 3× · Shoulders 2× · Triceps 2× · Biceps 1×",
+  days:[
+  { id:"w3a", day:"Monday", label:"Lift A", icon:"💪",
+    focus:"Squat + Hip Thrust + Pull · Heaviest week",
+    timing:"~75 min · Longer rests at heavy loads",
+    exercises:[
+      { name:"Bulgarian Split Squat", sets:4, reps:"8ea", muscles:["quad","glute"], ankleTag:true, startKg:"2 × 6–8kg DBs", startNote:"start light — movement is far harder than split squat",
+        tip:"⚠️ Ankle — back foot on bench, front foot forward. 3-sec descent. Start lighter than you think — this is the hardest squat variation. Incredible for glutes and quads.",
+        link:"https://www.youtube.com/results?search_query=bulgarian+split+squat+tutorial+form" },
+      { name:"Hip Thrust (Barbell or Heavy DB)", sets:4, reps:"8", muscles:["glute"], startKg:"30–40kg barbell", startNote:"move to barbell now for more load",
+        tip:"Heaviest hip thrust yet. 1-sec hold at top. 3-sec eccentric on the way down. If using a dumbbell, move to barbell this week for more load.",
+        link:"https://www.youtube.com/results?search_query=barbell+hip+thrust+tutorial" },
+      { name:"Weighted Pull-Up / Assisted", sets:4, reps:"8", muscles:["back"], startKg:"assisted — lowest counterweight", startNote:"full range beats partial reps every time",
+        tip:"Assisted machine if needed. Full dead hang to chin over bar. No partial reps. This is a milestone movement — harder than lat pulldown.",
+        link:"https://www.youtube.com/results?search_query=assisted+pull+up+form+tutorial" },
+      { name:"Incline Dumbbell Press", sets:3, reps:"10", muscles:["shoulder"], startKg:"10–12kg DBs", startNote:"new this week — start moderate",
+        tip:"30–45° incline. This is the only pressing movement — upper chest and front delt. 3-sec descent. Pause 1 sec at chest.",
+        link:"https://www.youtube.com/results?search_query=incline+dumbbell+press+tutorial" },
+      { name:"Tricep Rope Pushdown", sets:4, reps:"8", muscles:["arms"], startKg:"14–17kg", startNote:"+2–3kg from Week 2",
+        tip:"Heaviest pushdown. 3-sec return. Elbows pinned. Fully extend at the bottom on every rep.",
+        link:"https://www.youtube.com/results?search_query=tricep+rope+pushdown+form" },
+      { name:"Hip Flexor Stretch", sets:1, reps:"60s each side", muscles:[], hipTag:true, noSets:true,
+        tip:"⚠️ Hip — especially important after Bulgarian squats. Take your time.",
+        link:"https://www.youtube.com/results?search_query=hip+flexor+lunge+stretch" },
+    ]},
+  { id:"w3p", day:"Wednesday", label:"Reformer Pilates", icon:"🌸", pilates:true,
+    focus:"Studio class · Active recovery between your hardest sessions" },
+  { id:"w3b", day:"Friday", label:"Lift B", icon:"🌿",
+    focus:"Hinge + Pull + Lateral chain · Strength peak",
+    timing:"~75 min",
+    exercises:[
+      { name:"Romanian Deadlift (RDL)", sets:4, reps:"6", muscles:["ham","glute"], hipTag:true, startKg:"2 × 15–17kg DBs", startNote:"heaviest RDL of the block",
+        tip:"⚠️ Hip — heaviest RDL of the block. 3-sec descent. You should feel a deep hamstring stretch. Check form in a mirror if possible.",
+        link:"https://www.youtube.com/results?search_query=romanian+deadlift+form+women" },
+      { name:"Leg Press", sets:4, reps:"8", muscles:["quad","glute"], ankleTag:true, startKg:"55–65kg", startNote:"heaviest leg press — +10–15kg from Week 2",
+        tip:"⚠️ Ankle — heaviest leg press. 3-sec eccentric. Consistent foot position every set.",
+        link:"https://www.youtube.com/results?search_query=leg+press+form+foot+position" },
+      { name:"Barbell Bent-Over Row", sets:4, reps:"6", muscles:["back"], startKg:"25–30kg barbell", startNote:"+5kg from Week 2",
+        tip:"Heaviest row. 3-sec eccentric. Pull with elbows not hands. Flat back throughout.",
+        link:"https://www.youtube.com/results?search_query=barbell+bent+over+row+form" },
+      { name:"Lateral Raises", sets:4, reps:"10", muscles:["shoulder"], startKg:"5–6kg DBs", startNote:"+1kg from Week 2",
+        tip:"Extra set this week. 3-sec eccentric every rep. Drop set on the final set.",
+        link:"https://www.youtube.com/results?search_query=lateral+raise+form+tutorial" },
+      { name:"Overhead Tricep Extension", sets:4, reps:"8", muscles:["arms"], startKg:"15–17kg", startNote:"+2–3kg from Week 2",
+        tip:"Heaviest overhead tricep. 3-sec eccentric. Full stretch at top — feel the long head loading.",
+        link:"https://www.youtube.com/results?search_query=overhead+tricep+extension+tutorial" },
+      { name:"Hip Flexor Stretch", sets:1, reps:"60s each side", muscles:[], hipTag:true, noSets:true,
+        tip:"⚠️ Hip — every session. Notice your range vs Week 1.",
+        link:"https://www.youtube.com/results?search_query=hip+flexor+lunge+stretch" },
+    ]},
+  { id:"w3c", day:"Saturday", label:"Lift C", icon:"✨",
+    focus:"Squat + Hip Thrust + Arms · Intensity peak",
+    timing:"~75 min",
+    exercises:[
+      { name:"Bulgarian Split Squat", sets:4, reps:"8ea", muscles:["quad","glute"], ankleTag:true, startKg:"2 × 8–10kg DBs", startNote:"+2kg from Monday if legs allow",
+        tip:"⚠️ Ankle — second Bulgarian session. Beat Monday's weight if legs allow. 3-sec descent every rep.",
+        link:"https://www.youtube.com/results?search_query=bulgarian+split+squat+tutorial+form" },
+      { name:"Hip Thrust (Barbell or Heavy DB)", sets:4, reps:"8", muscles:["glute"], startKg:"35–45kg barbell", startNote:"peak glute load — try to beat Monday",
+        tip:"Beat Monday's weight. Peak glute load of the block. 1-sec hold at top, 3-sec eccentric.",
+        link:"https://www.youtube.com/results?search_query=barbell+hip+thrust+tutorial" },
+      { name:"Single-Arm Dumbbell Row", sets:4, reps:"8ea", muscles:["back"], startKg:"14–16kg DB", startNote:"+2kg from Week 2",
+        tip:"Heaviest single-arm row. 3-sec eccentric. Drive elbow to hip, long range.",
+        link:"https://www.youtube.com/results?search_query=single+arm+dumbbell+row+tutorial" },
+      { name:"Leg Curl", sets:4, reps:"8", muscles:["ham"], startKg:"28–32kg", startNote:"+5kg from Week 2",
+        tip:"Heaviest leg curl. 3-sec eccentric. Paired with Friday's RDL this week = comprehensive hamstring stimulus.",
+        link:"https://www.youtube.com/results?search_query=lying+leg+curl+machine+form" },
+      { name:"EZ-Bar Bicep Curl", sets:3, reps:"10", muscles:["arms"], startKg:"14–16kg EZ bar", startNote:"+2kg from Week 2",
+        tip:"Heaviest curl. 3-sec eccentric. Your back work already pre-fatigues biceps — they're getting more stimulus than you think.",
+        link:"https://www.youtube.com/results?search_query=ez+bar+bicep+curl+form" },
+      { name:"Hip Flexor Stretch + Seated Calf Raise", sets:1, reps:"60s / 15 reps", muscles:[], hipTag:true, ankleTag:true, noSets:true,
+        tip:"⚠️ Ankle + Hip — end of your hardest week. Take proper time on both.",
+        link:"https://www.youtube.com/results?search_query=seated+calf+raise+hip+flexor+stretch" },
+    ]},
+]},
+
+// ══════════════════════════════════════════════════════
+// WEEK 4 — Peak & Test · 5×5 main lifts · Barbell Squat
+// ══════════════════════════════════════════════════════
+{ num:4, theme:"Peak & Test", focus:"5×5 main lifts · Deload accessories · Barbell Back Squat — you've earned it",
+  squat:"Week 4 — Barbell Back Squat: Bar on upper traps, feet shoulder-width, toes slightly out. Heels elevated on thin plates if ankle needs it. Ramp up carefully: empty bar × 8, then add weight in sets of 5. Sit into the squat. This is what three weeks of progression built toward.",
+  muscleWeek:"Strength test week — ramp compounds, recover accessories",
+  days:[
+  { id:"w4a", day:"Monday", label:"Lift A", icon:"💪",
+    focus:"Squat + Hip Thrust strength test",
+    timing:"~70 min · Longer warm-up on barbell squat",
+    exercises:[
+      { name:"Barbell Back Squat", sets:5, reps:"5", muscles:["quad","glute"], ankleTag:true, startKg:"ramp: bar → 30 → 40 → 50 → 60kg", startNote:"top set = your 5-rep max with good form",
+        tip:"⚠️ Ankle — heels on thin plates if needed. Ramp up: bar × 8, 40% × 5, 60% × 5, 75% × 5, 85% × 5, 90% × 5. Sit into the squat. This is your milestone movement — earned over 3 weeks.",
+        link:"https://www.youtube.com/results?search_query=barbell+back+squat+form+beginners" },
+      { name:"Hip Thrust (Barbell)", sets:5, reps:"5", muscles:["glute"], startKg:"ramp: 20 → 30 → 40 → 50 → 60kg", startNote:"note your top set — compare to W1",
+        tip:"Heaviest hip thrust of the block. Ramp up same as squat. Note your top set weight — compare to W1.",
+        link:"https://www.youtube.com/results?search_query=barbell+hip+thrust+tutorial" },
+      { name:"Lat Pulldown", sets:3, reps:"12", muscles:["back"], startKg:"20–25kg", startNote:"back to W1 weight — notice how easy it feels",
+        tip:"Back to moderate weight. Accessories deload this week while compounds are heavy. Notice how easy W1 weight feels.",
+        link:"https://www.youtube.com/results?search_query=lat+pulldown+form+tutorial" },
+      { name:"Dumbbell Shoulder Press", sets:3, reps:"12", muscles:["shoulder"], startKg:"6–8kg DBs", startNote:"back to W1 weight — recovery mode",
+        tip:"Moderate weight. Recover alongside the heavy lower body work.",
+        link:"https://www.youtube.com/results?search_query=seated+dumbbell+shoulder+press+tutorial" },
+      { name:"Tricep Rope Pushdown", sets:3, reps:"15", muscles:["arms"], startKg:"10–12kg", startNote:"lighter this week — pump and maintenance",
+        tip:"Lighter, higher reps. Pump and maintenance. Elbow joint recovery.",
+        link:"https://www.youtube.com/results?search_query=tricep+rope+pushdown+form" },
+      { name:"Hip Flexor Stretch", sets:1, reps:"60s each side", muscles:[], hipTag:true, noSets:true,
+        tip:"⚠️ Hip — compare your range to Week 1. Write it in your notes.",
+        link:"https://www.youtube.com/results?search_query=hip+flexor+lunge+stretch" },
+    ]},
+  { id:"w4p", day:"Wednesday", label:"Reformer Pilates", icon:"🌸", pilates:true,
+    focus:"Studio class · Final Pilates of the block" },
+  { id:"w4b", day:"Friday", label:"Lift B", icon:"🌿",
+    focus:"RDL + Leg Press strength test",
+    timing:"~70 min",
+    exercises:[
+      { name:"Romanian Deadlift (RDL)", sets:5, reps:"5", muscles:["ham","glute"], hipTag:true, startKg:"ramp to your heaviest 5", startNote:"compare top set to your W1 starting weight",
+        tip:"⚠️ Hip — ramp to your heaviest 5. Same approach as Monday's squat. How much stronger are you vs Week 1?",
+        link:"https://www.youtube.com/results?search_query=romanian+deadlift+form+women" },
+      { name:"Leg Press", sets:5, reps:"5", muscles:["quad","glute"], ankleTag:true, startKg:"ramp to your heaviest 5", startNote:"note your top set weight",
+        tip:"⚠️ Ankle — ramp to your heaviest 5. Consistent foot position. Note your top set.",
+        link:"https://www.youtube.com/results?search_query=leg+press+form+foot+position" },
+      { name:"Barbell Bent-Over Row", sets:3, reps:"10", muscles:["back"], startKg:"20kg barbell", startNote:"back to W2 weight — it'll feel easy now",
+        tip:"Back to moderate. Back recovery alongside heavy lower body. Notice how W1 weight feels now.",
+        link:"https://www.youtube.com/results?search_query=barbell+bent+over+row+form" },
+      { name:"Lateral Raises", sets:3, reps:"15", muscles:["shoulder"], startKg:"3–4kg DBs", startNote:"lighter, higher reps this week",
+        tip:"Lighter, higher reps. Shoulder maintenance to close the block.",
+        link:"https://www.youtube.com/results?search_query=lateral+raise+form+tutorial" },
+      { name:"Overhead Tricep Extension", sets:3, reps:"12", muscles:["arms"], startKg:"12–14kg", startNote:"moderate — recovery week for arms",
+        tip:"Moderate. Triceps recover with the rest of the body this week.",
+        link:"https://www.youtube.com/results?search_query=overhead+tricep+extension+tutorial" },
+      { name:"Hip Flexor Stretch", sets:1, reps:"60s each side", muscles:[], hipTag:true, noSets:true,
+        tip:"⚠️ Hip — every session to the end.",
+        link:"https://www.youtube.com/results?search_query=hip+flexor+lunge+stretch" },
+    ]},
+  { id:"w4c", day:"Saturday", label:"Lift C", icon:"✨",
+    focus:"Final session — close the block",
+    timing:"~65 min",
+    exercises:[
+      { name:"Barbell Back Squat", sets:3, reps:"8", muscles:["quad","glute"], ankleTag:true, startKg:"W1 goblet squat equivalent", startNote:"feel the contrast — that's 4 weeks of progress",
+        tip:"⚠️ Ankle — use Week 1 goblet squat equivalent weight. Feel how different it is. That contrast is four weeks of progress.",
+        link:"https://www.youtube.com/results?search_query=barbell+back+squat+form+beginners" },
+      { name:"Hip Thrust", sets:3, reps:"12", muscles:["glute"], startKg:"moderate — below W3 weight", startNote:"intentional and controlled today",
+        tip:"Moderate. Intentional. Feel how strong your glutes are compared to Week 1's first session.",
+        link:"https://www.youtube.com/results?search_query=barbell+hip+thrust+tutorial" },
+      { name:"Single-Arm Dumbbell Row", sets:3, reps:"10ea", muscles:["back"], startKg:"10–12kg DB", startNote:"moderate to close the block",
+        tip:"Moderate. Strong, controlled reps. Good back to close the block.",
+        link:"https://www.youtube.com/results?search_query=single+arm+dumbbell+row+tutorial" },
+      { name:"Leg Curl", sets:3, reps:"12", muscles:["ham"], startKg:"20–25kg", startNote:"moderate — no PRs today",
+        tip:"Moderate weight. Hamstring maintenance. Close the block without grinding.",
+        link:"https://www.youtube.com/results?search_query=lying+leg+curl+machine+form" },
+      { name:"EZ-Bar Bicep Curl + Tricep Pushdown Superset", sets:3, reps:"12ea", muscles:["arms"], startKg:"10–12kg each", startNote:"pump to close 4 weeks — enjoy it",
+        tip:"Superset: 12 curls, straight into 12 pushdowns. A great pump to close four weeks of hard work. You've earned it.",
+        link:"https://www.youtube.com/results?search_query=bicep+curl+tricep+pushdown+superset" },
+      { name:"Full Body Cooldown Stretch", sets:1, reps:"8–10 min", muscles:[], hipTag:true, noSets:true,
+        tip:"⚠️ Hip — hips, quads, hamstrings, chest, lats. Take your time. This is your end-of-block reward.",
+        link:"https://www.youtube.com/results?search_query=full+body+post+workout+stretch+women" },
+    ]},
+]},
+]};
+
+// ── STATE ──
+let S={},cw=1;
+function load(){try{S=JSON.parse(localStorage.getItem('sp6')||'{}');}catch(e){S={};}}
+function save(){try{localStorage.setItem('sp6',JSON.stringify(S));}catch(e){}}
+load();
+const K={
+  kg:(w,d,e,s)=>`${w}_${d}_e${e}_s${s}_kg`,
+  rp:(w,d,e,s)=>`${w}_${d}_e${e}_s${s}_rp`,
+  dn:(w,d,e,s)=>`${w}_${d}_e${e}_s${s}_dn`,
+  dd:(w,d)=>`${w}_${d}_done`,
+  nt:(w,d)=>`${w}_${d}_notes`,
+  en:(w,d)=>`${w}_${d}_energy`,
+  cy:(w,d)=>`${w}_${d}_cycle`,
+  nk:d=>`n_kcal_${d}`,np:d=>`n_prot_${d}`,nn:d=>`n_note_${d}`,
+  nc:d=>`n_carb_${d}`,nf:d=>`n_fat_${d}`,
+};
+
+function showPage(p){
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
+  document.getElementById(`page-${p}`).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',['train','nutrition','progress'][i]===p));
+  document.querySelectorAll('.bn').forEach((b,i)=>b.classList.toggle('active',['train','nutrition','progress'][i]===p));
+  if(p==='progress') renderProgress();
+  if(p==='nutrition') renderNutrition();
+}
+
+let currentNutriWeek=1;
+function switchNutriWeek(w){
+  currentNutriWeek=w;
+  for(let i=1;i<=4;i++){
+    const el=document.getElementById(`nwk${i}`);
+    if(el) el.classList.toggle('active',i===w);
+  }
+  renderNutrition();
+}
+
+function renderNutrition(){
+  const w=currentNutriWeek;
+  const dayLabels=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  const dayTypes=['Training','Rest','Pilates','Rest','Training','Training','Rest'];
+  const kcalTargets=[1900,1600,1700,1600,1900,1900,1600];
+  let html='';
+
+  for(let d=0;d<7;d++){
+    const dk=`w${w}d${d+1}`;
+    const kv=S[K.nk(dk)]||'';
+    const pv=S[K.np(dk)]||'';
+    const cv=S[K.nc(dk)]||'';
+    const fv=S[K.nf(dk)]||'';
+    const pn=parseFloat(pv)||0;
+    const pct=Math.min(100,Math.round((pn/100)*100));
+    const kcalTarget=kcalTargets[d];
+    const kn=parseFloat(kv)||0;
+    const kcalPct=Math.min(100,Math.round((kn/kcalTarget)*100));
+
+    html+=`<div class="nutri-day" style="margin-bottom:10px;">
+      <div class="nd-head">
+        <div>
+          <h4>${dayLabels[d]}</h4>
+          <span style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">${dayTypes[d]} · target ${kcalTarget} kcal</span>
+        </div>
+        <span style="font-size:0.7rem;color:${pn>=100?'var(--sage)':'var(--muted)'};font-weight:600">${pn>0?pn+'g protein':''}</span>
+      </div>
+
+      <div class="nd-grid">
+        <div class="nf"><label>Calories (kcal)</label>
+          <input type="number" inputmode="decimal" placeholder="${kcalTarget}" value="${kv}"
+            oninput="si('${K.nk(dk)}',this.value,null);updateNutriBar('${dk}')">
+        </div>
+        <div class="nf"><label>Protein (g)</label>
+          <input type="number" inputmode="decimal" placeholder="100" value="${pv}"
+            oninput="si('${K.np(dk)}',this.value,null);updateNutriBar('${dk}')">
+        </div>
+        <div class="nf"><label>Carbs (g)</label>
+          <input type="number" inputmode="decimal" placeholder="${d===1||d===3||d===6?'150':'210'}" value="${cv}"
+            oninput="si('${K.nc(dk)}',this.value,null)">
+        </div>
+        <div class="nf"><label>Fat (g)</label>
+          <input type="number" inputmode="decimal" placeholder="60" value="${fv}"
+            oninput="si('${K.nf(dk)}',this.value,null)">
+        </div>
+      </div>
+
+      <div class="pbar-wrap">
+        <div class="pbar-lbl">
+          <span>Protein</span>
+          <span id="pbl_${dk}">${pn}g / 100g</span>
+        </div>
+        <div class="pbar-bg"><div class="pbar-fill" id="pb_${dk}" style="width:${pct}%"></div></div>
+      </div>
+      <div class="pbar-wrap" style="margin-top:5px;">
+        <div class="pbar-lbl">
+          <span>Calories</span>
+          <span id="kbl_${dk}">${kn>0?kn+' / '+kcalTarget+' kcal':''}</span>
+        </div>
+        <div class="pbar-bg"><div class="pbar-fill" id="kb_${dk}" style="width:${kcalPct}%;background:linear-gradient(90deg,var(--terra),var(--sand))"></div></div>
+      </div>
+    </div>`;
+  }
+  document.getElementById('nutriLog').innerHTML=html;
+}
+
+function updateNutriBar(dk){
+  const pv=parseFloat(document.querySelector(`input[oninput*="${K.np(dk)}"]`)?.value)||0;
+  const kv=parseFloat(document.querySelector(`input[oninput*="${K.nk(dk)}"]`)?.value)||0;
+  const pct=Math.min(100,Math.round((pv/100)*100));
+  const pb=document.getElementById(`pb_${dk}`);
+  const pbl=document.getElementById(`pbl_${dk}`);
+  if(pb) pb.style.width=pct+'%';
+  if(pbl) pbl.textContent=`${pv}g / 100g`;
+  // kcal bar — figure out target from day
+  const dk_parts=dk.match(/w(\d)d(\d)/);
+  if(dk_parts){
+    const d=parseInt(dk_parts[2])-1;
+    const targets=[1900,1600,1700,1600,1900,1900,1600];
+    const target=targets[d]||1800;
+    const kpct=Math.min(100,Math.round((kv/target)*100));
+    const kb=document.getElementById(`kb_${dk}`);
+    const kbl=document.getElementById(`kbl_${dk}`);
+    if(kb) kb.style.width=kpct+'%';
+    if(kbl) kbl.textContent=kv>0?`${kv} / ${target} kcal`:'';
+  }
+}
+function sw(w){
+  cw=w;
+  document.querySelectorAll('.wk-pill').forEach((b,i)=>b.classList.toggle('active',i+1===w));
+  document.getElementById('weekChip').textContent=`Week ${w}`;
+  renderTraining();
+}
+
+const muscleTagMap = {
+  glute:{cls:'tag-glute',label:'Glutes'},
+  ham:{cls:'tag-ham',label:'Hamstrings'},
+  quad:{cls:'tag-quad',label:'Quads'},
+  back:{cls:'tag-back',label:'Back'},
+  shoulder:{cls:'tag-shoulder',label:'Shoulders'},
+  arms:{cls:'tag-arms',label:'Arms'},
+};
+
+function renderTraining(){
+  const wk=P.weeks[cw-1];
+  const liftDays=wk.days.filter(d=>!d.pilates);
+  const totalSets=liftDays.reduce((a,d)=>a+(d.exercises?.reduce((b,e)=>b+(e.noSets?0:(e.sets||0)),0)||0),0);
+
+  let html=`
+    <div class="week-banner">
+      <div class="wb-row">
+        <div class="wb-left">
+          <h2>${wk.theme}</h2>
+          <p>${wk.focus}</p>
+        </div>
+        <div class="wb-stats">
+          <div><div class="wbv">${liftDays.length}</div><div class="wbl">Lift days</div></div>
+          <div><div class="wbv">${totalSets}</div><div class="wbl">Sets</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="muscle-map">
+      <div class="mm-label">This week covers</div>
+      <div class="mm-row">
+        <span class="mm-badge mm-a">Glutes 2×</span>
+        <span class="mm-badge mm-a">Hamstrings 2×</span>
+        <span class="mm-badge mm-b">Quads 2×</span>
+        <span class="mm-badge mm-b">Back 3×</span>
+        <span class="mm-badge mm-c">Shoulders 2×</span>
+        <span class="mm-badge mm-d">Triceps 2×</span>
+        <span class="mm-badge mm-d">Biceps 1×</span>
+      </div>
+    </div>
+    <div class="sched">
+      <span class="sd lift">Mon 🏋️</span>
+      <span class="sd pil">Wed 🌸</span>
+      <span class="sd lift">Fri 🏋️</span>
+      <span class="sd lift">Sat 🏋️</span>
+    </div>
+    <div class="days-wrap">`;
+
+  wk.days.forEach((day,di)=>{
+    if(day.pilates){
+      html+=`<div class="day-card pil-card">
+        <div class="day-head">
+          <div class="dh-left"><span class="day-icon">${day.icon}</span>
+            <div><div class="day-name">${day.day} — ${day.label}</div><div class="day-sub">${day.focus}</div></div>
+          </div>
+          <span style="font-size:0.6rem;color:var(--sage)">Reformer 🌿</span>
+        </div>
+      </div>`;
+      return;
+    }
+
+    const isDone=!!S[K.dd(cw,day.id)];
+    const trackEx=day.exercises.filter(e=>!e.noSets);
+    const totalS=trackEx.reduce((a,e)=>a+e.sets,0);
+    let doneS=0;
+    trackEx.forEach((ex,ei)=>{for(let s=0;s<ex.sets;s++) if(S[K.dn(cw,day.id,ei,s)]) doneS++;});
+
+    const hasSquat=day.exercises.some(e=>e.name.toLowerCase().includes('squat')||e.name.toLowerCase().includes('split'));
+
+    html+=`<div class="day-card ${di===0?'open':''} ${isDone?'done':''}" id="dc_${day.id}">
+      <div class="day-head" onclick="td('${day.id}')">
+        <div class="dh-left"><span class="day-icon">${day.icon}</span>
+          <div>
+            <div class="day-name">${day.day} — ${day.label}${isDone?' ✓':''}</div>
+            <div class="day-sub">${day.focus}</div>
+          </div>
+        </div>
+        <div><div class="day-prog" id="dp_${day.id}">${doneS}/${totalS} sets</div><div class="chev">▾</div></div>
+      </div>
+      <div class="ex-body">
+        <div class="timing-row">⏱ ${day.timing}</div>`;
+
+    if(hasSquat){
+      html+=`<div class="squat-banner"><span class="sb-icon">🔄</span><p><strong>Squat Progression</strong>${wk.squat}</p></div>`;
+    }
+
+    day.exercises.forEach((ex,ei)=>{
+      const slotLabels=['Slot 1 — Squat','Slot 2 — Hinge','Slot 3 — Pull','Slot 4 — Push','Slot 5 — Isolation','Mobility'];
+      html+=`<div class="ex-item">
+        <div class="ex-slot">${ex.noSets?'Mobility Close':slotLabels[ei]||`Exercise ${ei+1}`}</div>
+        <div class="ex-top">
+          <div class="ex-name">${ex.name}</div>
+          <a href="${ex.link}" target="_blank" class="how-btn">▶ How to</a>
+        </div>
+        <div class="ex-tags">`;
+      (ex.muscles||[]).forEach(m=>{ if(muscleTagMap[m]) html+=`<span class="tag ${muscleTagMap[m].cls}">${muscleTagMap[m].label}</span>`; });
+      if(ex.ankleTag) html+=`<span class="tag tag-a">⚠ Ankle</span>`;
+      if(ex.hipTag)   html+=`<span class="tag tag-h">⚠ Hip</span>`;
+      if(!ex.noSets)  html+=`<span class="tag tag-s">${ex.sets} sets · ${ex.reps} reps</span>`;
+      else            html+=`<span class="tag tag-s">${ex.reps}</span>`;
+      html+=`</div><div class="ex-tip">${ex.tip}</div>`;
+
+      if(!ex.noSets){
+        if(ex.startKg) html+=`<div class="start-weight"><span class="sw-label">💡 Suggested start</span><span class="sw-val">${ex.startKg}</span>${ex.startNote?`<span class="sw-note">· ${ex.startNote}</span>`:''}</div>`;
+        html+=`<div class="set-hdr"><span></span><span>Weight kg</span><span>Reps done</span><span>Target</span><span></span></div>`;
+        for(let s=0;s<ex.sets;s++){
+          const kk=K.kg(cw,day.id,ei,s),rk=K.rp(cw,day.id,ei,s),dk=K.dn(cw,day.id,ei,s);
+          const kv=S[kk]||'',rv=S[rk]||'',dv=!!S[dk];
+          html+=`<div class="set-row">
+            <div class="sn">S${s+1}</div>
+            <input class="inp ${kv?'hv':''}" type="number" inputmode="decimal" placeholder="kg" value="${kv}" oninput="si('${kk}',this.value,this)">
+            <input class="inp ${rv?'hv':''}" type="number" inputmode="numeric" placeholder="reps" value="${rv}" oninput="si('${rk}',this.value,this)">
+            <div class="tgt">${ex.reps}<br>target</div>
+            <button class="tick ${dv?'done':''}" onclick="tdn('${dk}','${day.id}',this)">✓</button>
+          </div>`;
+        }
+        const vol=calcVol(cw,day.id,ei,ex.sets);
+        if(vol>0){
+          let dh='';
+          if(cw>1){const pv=findPrevVol(cw,ex.name,ex.sets);if(pv>0){const diff=vol-pv;dh=diff>0?`<span class="vup">▲ +${diff.toFixed(0)}kg</span>`:diff<0?`<span class="vdn">▼ ${diff.toFixed(0)}kg</span>`:''}}
+          html+=`<div class="vol-mini">📊 <div><div class="vl">Volume</div><div style="display:flex;gap:7px;align-items:center"><span class="vv">${vol.toFixed(0)}kg</span>${dh}</div></div></div>`;
+        }
+      }
+      html+=`</div>`;
+    });
+
+    const nk=K.nt(cw,day.id),ek=K.en(cw,day.id),ck=K.cy(cw,day.id);
+    const nv=S[nk]||'',ev=S[ek]||'',cv2=S[ck]||'';
+    const eO=[{v:'1',e:'😴',l:'Exhausted'},{v:'2',e:'😔',l:'Low'},{v:'3',e:'😐',l:'Okay'},{v:'4',e:'😊',l:'Good'},{v:'5',e:'🔥',l:'On fire'}];
+    const cO=['Menstrual','Follicular','Ovulation','Luteal','N/A'];
+
+    html+=`<div class="sess-foot">
+      <div><div class="foot-lbl">Session notes</div>
+        <textarea class="notes-ta" placeholder="Weights? How did it feel? Energy? Any pain?" oninput="si('${nk}',this.value,null)">${nv}</textarea>
+      </div>
+      <div><div class="foot-lbl">Energy today</div>
+        <div class="energy-btns">`;
+    eO.forEach(e=>html+=`<button class="e-btn ${ev===e.v?'e'+e.v:''}" onclick="selE('${ek}','${e.v}','${day.id}')"><span>${e.e}</span>${e.l}</button>`);
+    html+=`</div></div><div><div class="foot-lbl">Cycle phase</div><div class="cycle-btns">`;
+    cO.forEach(c=>html+=`<button class="c-btn ${cv2===c?'sel':''}" onclick="selC('${ck}','${c}','${day.id}')">${c}</button>`);
+    html+=`</div></div>
+      <button class="done-btn ${isDone?'done':''}" id="cb_${day.id}" onclick="mDone('${K.dd(cw,day.id)}','${day.id}')">
+        ${isDone?'✓ Session Complete':'Mark Session Complete'}
+      </button>
+    </div></div></div>`;
+  });
+  html+=`</div>`;
+  document.getElementById('trainContent').innerHTML=html;
+}
+
+function calcVol(w,did,ei,sets){let t=0;for(let s=0;s<sets;s++) t+=(parseFloat(S[K.kg(w,did,ei,s)])||0)*(parseFloat(S[K.rp(w,did,ei,s)])||0);return t;}
+function findPrevVol(w,exName,sets){
+  const pw=P.weeks[w-2];
+  for(const d of pw.days){if(d.pilates||!d.exercises)continue;
+    for(let ei=0;ei<d.exercises.length;ei++) if(d.exercises[ei].name===exName) return calcVol(w-1,d.id,ei,d.exercises[ei].sets);}
+  return 0;
+}
+function td(id){document.getElementById(`dc_${id}`).classList.toggle('open');}
+function si(k,v,el){if(!v) delete S[k]; else S[k]=v; if(el) el.classList.toggle('hv',!!v); save();}
+function tdn(k,did,btn){S[k]=!S[k];btn.classList.toggle('done',S[k]);save();updProg(cw,did);}
+function updProg(w,did){
+  const day=P.weeks[w-1].days.find(d=>d.id===did);
+  if(!day||day.pilates) return;
+  const te=day.exercises.filter(e=>!e.noSets);
+  const tot=te.reduce((a,e)=>a+e.sets,0);
+  let done=0;
+  te.forEach((ex,ei)=>{for(let s=0;s<ex.sets;s++) if(S[K.dn(w,did,ei,s)]) done++;});
+  const el=document.getElementById(`dp_${did}`);
+  if(el) el.textContent=`${done}/${tot} sets`;
+}
+function selE(k,v,did){S[k]=v;save();const c=document.getElementById(`dc_${did}`);if(c) c.querySelectorAll('.e-btn').forEach((b,i)=>b.className=`e-btn${v===String(i+1)?' e'+v:''}`);}
+function selC(k,v,did){S[k]=v;save();const c=document.getElementById(`dc_${did}`);if(c) c.querySelectorAll('.c-btn').forEach(b=>b.classList.toggle('sel',b.textContent===v));}
+function mDone(k,did){S[k]=!S[k];save();const c=document.getElementById(`dc_${did}`),b=document.getElementById(`cb_${did}`);if(c) c.classList.toggle('done',S[k]);if(b){b.textContent=S[k]?'✓ Session Complete':'Mark Session Complete';b.classList.toggle('done',S[k]);}}
+
+function renderNutrition(){
+  let h='';
+  for(let w=1;w<=4;w++){
+    h+=`<div class="wk-head">Week ${w}</div>`;
+    for(let d=1;d<=7;d++){
+      const dk=`w${w}d${d}`,kv=S[K.nk(dk)]||'',pv=S[K.np(dk)]||'',nv=S[K.nn(dk)]||'';
+      const pn=parseFloat(pv)||0,pct=Math.min(100,Math.round((pn/100)*100));
+      h+=`<div class="nutri-day">
+        <div class="nd-head"><h4>Day ${d}</h4><span>${pn>0?pn+'g protein':'Not logged'}</span></div>
+        <div class="nd-grid">
+          <div class="nf"><label>Calories (kcal)</label><input type="number" inputmode="decimal" placeholder="e.g. 1800" value="${kv}" oninput="si('${K.nk(dk)}',this.value,null)"></div>
+          <div class="nf"><label>Protein (g)</label><input type="number" inputmode="decimal" placeholder="e.g. 100" value="${pv}" oninput="si('${K.np(dk)}',this.value,null);upBar('${dk}',this.value)"></div>
+        </div>
+        <div class="pbar-wrap">
+          <div class="pbar-lbl"><span>Protein</span><span id="pbl_${dk}">${pn}g / 100g</span></div>
+          <div class="pbar-bg"><div class="pbar-fill" id="pb_${dk}" style="width:${pct}%"></div></div>
+        </div>
+        <div class="nn"><label>Notes</label><textarea placeholder="What did you eat? How did you feel?" oninput="si('${K.nn(dk)}',this.value,null)">${nv}</textarea></div>
+      </div>`;
+    }
+  }
+  document.getElementById('nutriLog').innerHTML=h;
+}
+function upBar(dk,v){const n=parseFloat(v)||0,p=Math.min(100,Math.round((n/100)*100));const b=document.getElementById(`pb_${dk}`),l=document.getElementById(`pbl_${dk}`);if(b)b.style.width=p+'%';if(l)l.textContent=`${n}g / 100g`;}
+
+function renderProgress(){
+  let vr='';
+  P.weeks.forEach(wk=>{
+    wk.days.filter(d=>!d.pilates).forEach(day=>{
+      let vol=0;
+      (day.exercises||[]).filter(e=>!e.noSets).forEach((ex,ei)=>{
+        for(let s=0;s<ex.sets;s++) vol+=(parseFloat(S[K.kg(wk.num,day.id,ei,s)])||0)*(parseFloat(S[K.rp(wk.num,day.id,ei,s)])||0);
+      });
+      if(vol>0) vr+=`<tr><td>${day.day} W${wk.num}<br><small style="color:var(--muted)">${day.label}</small></td><td><strong>${vol.toFixed(0)}kg</strong></td><td>${S[K.dd(wk.num,day.id)]?'✓':'—'}</td></tr>`;
+    });
+  });
+  document.getElementById('volumeTable').innerHTML=vr
+    ?`<table class="data-table"><tr><th>Session</th><th>Total Volume</th><th>Done</th></tr>${vr}</table>`
+    :`<div class="empty">Log your weights to see volume tracking here.</div>`;
+  const eMap={'1':'😴 Exhausted','2':'😔 Low','3':'😐 Okay','4':'😊 Good','5':'🔥 On fire'};
+  let er='';
+  P.weeks.forEach(wk=>{
+    wk.days.filter(d=>!d.pilates).forEach(day=>{
+      const e=S[K.en(wk.num,day.id)],c=S[K.cy(wk.num,day.id)];
+      if(e||c) er+=`<tr><td>${day.day} W${wk.num}</td><td>${e?eMap[e]:'—'}</td><td>${c||'—'}</td><td style="font-size:0.65rem;color:var(--muted)">${(S[K.nt(wk.num,day.id)]||'').substring(0,28)||'—'}</td></tr>`;
+    });
+  });
+  document.getElementById('energyLog').innerHTML=er
+    ?`<table class="data-table"><tr><th>Session</th><th>Energy</th><th>Cycle</th><th>Note</th></tr>${er}</table>`
+    :`<div class="empty">Rate your energy after sessions to build a picture over time.</div>`;
+}
+
+function exportAll(){
+  let t=`YOUR PROGRAMME — FULL EXPORT\nExported: ${new Date().toLocaleDateString()}\n${'─'.repeat(50)}\n\nSESSION STRUCTURE (5 slots):\nSlot 1: Squat pattern — Glutes + Quads\nSlot 2: Hinge pattern — Hamstrings + Glutes\nSlot 3: Pull — Back\nSlot 4: Push — Shoulders\nSlot 5: Isolation — Triceps / Biceps / rotating\n\nSQUAT PROGRESSION: Goblet → Split Squat → Bulgarian → Barbell Back Squat\nHIP THRUST: Monday + Saturday (2× per week)\n\n`;
+  P.weeks.forEach(wk=>{
+    t+=`WEEK ${wk.num}: ${wk.theme}\n`;
+    wk.days.forEach(day=>{
+      if(day.pilates){t+=`  ${day.day}: Reformer Pilates\n\n`;return;}
+      t+=`\n  ${day.day} — ${day.label}\n`;
+      (day.exercises||[]).forEach((ex,ei)=>{
+        if(ex.noSets){t+=`    ${ex.name}\n`;return;}
+        t+=`    ${ex.name}\n`;
+        for(let s=0;s<ex.sets;s++){
+          const kg=S[K.kg(wk.num,day.id,ei,s)]||'—',rp=S[K.rp(wk.num,day.id,ei,s)]||'—',dn=S[K.dn(wk.num,day.id,ei,s)]?'✓':'○';
+          t+=`      Set ${s+1}: ${kg}kg × ${rp} reps ${dn}\n`;
+        }
+      });
+      const em={'1':'Exhausted','2':'Low','3':'Okay','4':'Good','5':'On fire'};
+      const e=S[K.en(wk.num,day.id)],c=S[K.cy(wk.num,day.id)],n=S[K.nt(wk.num,day.id)];
+      if(e)t+=`  Energy: ${em[e]}\n`;if(c)t+=`  Cycle: ${c}\n`;if(n)t+=`  Notes: ${n}\n`;
+      t+='\n';
+    });
+  });
+  t+=`NUTRITION LOG\n${'─'.repeat(30)}\n`;
+  for(let w=1;w<=4;w++){t+=`Week ${w}:\n`;for(let d=1;d<=7;d++){const dk=`w${w}d${d}`;const k=S[K.nk(dk)],p=S[K.np(dk)],n=S[K.nn(dk)];if(k||p)t+=`  Day ${d}: ${k||'—'}kcal · ${p||'—'}g protein${n?' — '+n:''}\n`;}}
+  dl(t,'my-programme-log.txt','text/plain');
+}
+function exportNutrition(){
+  const days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  let t=`NUTRITION LOG\nTargets: Training 1,900 kcal · Rest 1,600 kcal · 100g+ protein daily\n${'─'.repeat(50)}\n\n`;
+  for(let w=1;w<=4;w++){
+    t+=`Week ${w}:\n`;
+    for(let d=1;d<=7;d++){
+      const dk=`w${w}d${d}`;
+      const k=S[K.nk(dk)],p=S[K.np(dk)],c=S[K.nc(dk)],f=S[K.nf(dk)];
+      if(k||p||c||f) t+=`  ${days[d-1]}: ${k||'—'}kcal · ${p||'—'}g protein · ${c||'—'}g carbs · ${f||'—'}g fat\n`;
+    }
+    t+='\n';
+  }
+  dl(t,'nutrition-log.txt','text/plain');
+}
+function dl(c,f,t){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:t}));a.download=f;a.click();}
+function clearAll(){if(!confirm('Clear all data?'))return;localStorage.removeItem('sp6');S={};renderTraining();}
+
+// ================================================================
+// MEAL ANALYSER — offline, instant, no API needed
+// Works by parsing the meal description against a food database
+// Photo mode: user describes what they see, same engine processes it
+// ================================================================
+let currentResult=null, currentMode='text', currentPhotoBase64=null, currentPhotoMime='image/jpeg';
+const SCAN_KEY='sp6_scans';
+function getScanLog(){try{return JSON.parse(localStorage.getItem(SCAN_KEY)||'[]');}catch(e){return[];}}
+function saveScanLog(log){try{localStorage.setItem(SCAN_KEY,JSON.stringify(log));}catch(e){}}
+function todayStr(){return new Date().toISOString().slice(0,10);}
+
+function setMode(mode){
+  currentMode=mode;
+  const isPhoto=mode==='photo';
+  const photoEl=document.getElementById('photoMode');
+  const textEl=document.getElementById('textMode');
+  if(photoEl) photoEl.style.display=isPhoto?'block':'none';
+  if(textEl) textEl.style.display=isPhoto?'none':'block';
+  const pBtn=document.getElementById('modePhoto');
+  const tBtn=document.getElementById('modeText');
+  if(pBtn&&tBtn){
+    pBtn.style.cssText=`flex:1;padding:9px;border-radius:10px;border:1.5px solid ${isPhoto?'var(--rose)':'var(--border)'};background:${isPhoto?'var(--rose)':'var(--surface)'};color:${isPhoto?'white':'var(--muted)'};font-family:'Jost',sans-serif;font-size:0.75rem;font-weight:600;cursor:pointer;`;
+    tBtn.style.cssText=`flex:1;padding:9px;border-radius:10px;border:1.5px solid ${!isPhoto?'var(--rose)':'var(--border)'};background:${!isPhoto?'var(--rose)':'var(--surface)'};color:${!isPhoto?'white':'var(--muted)'};font-family:'Jost',sans-serif;font-size:0.75rem;font-weight:600;cursor:pointer;`;
+  }
+  const result=document.getElementById('scanResult');
+  if(result) result.classList.remove('show');
+}
+
+function handlePhoto(input){
+  const file=input.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const dataUrl=e.target.result;
+    // Show preview
+    const preview=document.getElementById('preview');
+    if(preview){ preview.src=dataUrl; preview.style.display='block'; }
+    const ph=document.getElementById('photoPlaceholder');
+    if(ph) ph.style.display='none';
+    const descWrap=document.getElementById('photoDescWrap');
+    if(descWrap) descWrap.style.display='block';
+    // Store base64 and real MIME type
+    const mimeMatch=dataUrl.match(/data:([^;]+);base64,/);
+    let mime=mimeMatch?mimeMatch[1]:'image/jpeg';
+    const allowed=['image/jpeg','image/png','image/gif','image/webp'];
+    if(!allowed.includes(mime)) mime='image/jpeg';
+    currentPhotoBase64=dataUrl.split(',')[1];
+    currentPhotoMime=mime;
+    const resultEl=document.getElementById('scanResult');
+    if(resultEl) resultEl.classList.remove('show');
+  };
+  reader.readAsDataURL(file);
+}
+
+// ── FOOD DATABASE ──────────────────────────────────────────────
+// Each entry: [kcal per 100g, protein per 100g, carbs per 100g, fat per 100g]
+const FOODS = {
+  // Proteins
+  'chicken breast':     [165, 31, 0, 3.6],
+  'chicken thigh':      [209, 26, 0, 11],
+  'chicken':            [175, 29, 0, 7],
+  'salmon':             [208, 20, 0, 13],
+  'smoked salmon':      [117, 18, 0, 4.3],
+  'tuna':               [116, 26, 0, 1],
+  'cod':                [82,  18, 0, 0.7],
+  'sea bass':           [97,  18, 0, 2.5],
+  'white fish':         [90,  18, 0, 1.5],
+  'prawns':             [99,  24, 0, 0.3],
+  'beef mince':         [217, 26, 0, 12],
+  'lean mince':         [174, 28, 0, 6],
+  'steak':              [242, 28, 0, 14],
+  'turkey':             [189, 29, 0, 7],
+  'egg':                [143, 13, 1, 10],
+  'scrambled egg':      [148, 10, 1, 11],
+  'poached egg':        [143, 13, 1, 10],
+  'fried egg':          [196, 14, 0, 15],
+  'greek yoghurt':      [97,  9,  6, 5],
+  'yoghurt':            [97,  9,  6, 5],
+  'cottage cheese':     [98,  11, 4, 4],
+  'mozzarella':         [280, 17, 2, 22],
+  'cheddar':            [402, 25, 1, 33],
+  'feta':               [264, 14, 4, 21],
+  'halloumi':           [321, 24, 2, 25],
+  'tofu':               [76,  8,  2, 4],
+  'edamame':            [121, 11, 9, 5],
+  'lentils':            [116, 9,  20, 0.4],
+  'chickpeas':          [164, 9,  27, 2.6],
+  'black beans':        [132, 9,  24, 0.5],
+  'whey protein':       [370, 80, 5, 3],
+  'protein shake':      [120, 24, 3, 2],
+  // Carbs
+  'sourdough':          [274, 9,  51, 2],
+  'sourdough toast':    [274, 9,  51, 2],
+  'bread':              [265, 9,  49, 3],
+  'toast':              [313, 11, 55, 4],
+  'wholegrain bread':   [247, 10, 41, 4],
+  'rice':               [130, 2.7,28, 0.3],
+  'brown rice':         [111, 2.6,23, 0.9],
+  'white rice':         [130, 2.7,28, 0.3],
+  'pasta':              [131, 5,  25, 1.1],
+  'wholegrain pasta':   [124, 5,  23, 1.5],
+  'oats':               [389, 17, 66, 7],
+  'porridge':           [71,  2.5,12, 1.4],
+  'quinoa':             [120, 4.4,22, 1.9],
+  'sweet potato':       [86,  1.6,20, 0.1],
+  'potato':             [77,  2,  17, 0.1],
+  'baby potato':        [77,  2,  17, 0.1],
+  'wrap':               [302, 8,  55, 6],
+  'pitta':              [275, 9,  55, 1.2],
+  'granola':            [471, 10, 60, 21],
+  'dates':              [282, 2.5,75, 0.4],
+  'medjool dates':      [277, 2,  75, 0.2],
+  'banana':             [89,  1.1,23, 0.3],
+  'berries':            [45,  0.9,10, 0.4],
+  'blueberries':        [57,  0.7,14, 0.3],
+  // Fats & oils
+  'avocado':            [160, 2,  9,  15],
+  'olive oil':          [884, 0,  0,  100],
+  'butter':             [717, 0.9,0.1,81],
+  'nuts':               [607, 20, 22, 54],
+  'almonds':            [579, 21, 22, 50],
+  'peanut butter':      [588, 25, 20, 50],
+  'seeds':              [534, 18, 18, 42],
+  'pumpkin seeds':      [559, 30, 11, 49],
+  'furikake':           [290, 10, 35, 10],
+  'tahini':             [595, 17, 21, 54],
+  // Veg (mostly negligible macros)
+  'spinach':            [23,  2.9,3.6,0.4],
+  'rocket':             [25,  2.6,3.7,0.7],
+  'lettuce':            [15,  1.4,2.9,0.2],
+  'cucumber':           [15,  0.7,3.6,0.1],
+  'tomato':             [18,  0.9,3.9,0.2],
+  'cherry tomato':      [18,  0.9,3.9,0.2],
+  'pepper':             [31,  1,  6,  0.3],
+  'courgette':          [17,  1.2,3.1,0.3],
+  'broccoli':           [34,  2.8,7,  0.4],
+  'green beans':        [31,  1.8,7,  0.1],
+  'mushroom':           [22,  3.1,3.3,0.3],
+  'kale':               [49,  4.3,9,  0.9],
+  'red onion':          [40,  1.1,9,  0.1],
+  'onion':              [40,  1.1,9,  0.1],
+  // Sauces & drinks
+  'oat milk':           [42,  0.9,5.6,1.3],
+  'almond milk':        [13,  0.4,0.3,1.1],
+  'whole milk':         [61,  3.2,4.8,3.3],
+  'balsamic vinegar':   [88,  0.5,17, 0],
+  'soy sauce':          [53,  8,  5,  0],
+  'hummus':             [166, 8,  14, 10],
+  'flat white':         [85,  4,  8,  4],
+  'oat flat white':     [95,  2,  14, 3],
+  'cappuccino':         [74,  4,  7,  3.5],
+  'latte':              [96,  5,  9,  4],
+};
+
+// Portion word modifiers
+const PORTION_WORDS = {
+  'small':0.6,'half':0.5,'quarter':0.25,'large':1.4,'big':1.4,'huge':1.8,
+  'handful':0.3,'slice':0.08,'tin':1.45,'can':1.45,'fillet':1.5,'piece':1.0,
+  'cup':0.85,'bowl':2.0,'plate':2.5,'portion':1.0,'serving':1.0,
+};
+
+// Number words
+const NUM_WORDS = {
+  'one':1,'two':2,'three':3,'four':4,'five':5,'six':6,
+  'a ':1,'an ':1,'1':1,'2':2,'3':3,'4':4,'5':5,'6':6,
+};
+
+function parseMealText(text){
+  const lower = text.toLowerCase();
+  const results = [];
+  const usedRanges = [];
+
+  // For each food in our database, check if it appears in the text
+  const sortedFoods = Object.keys(FOODS).sort((a,b)=>b.length-a.length); // longest first
+
+  for(const food of sortedFoods){
+    const idx = lower.indexOf(food);
+    if(idx === -1) continue;
+
+    // Check not already matched in this range
+    const overlap = usedRanges.some(([s,e])=>idx>=s && idx<=e);
+    if(overlap) continue;
+    usedRanges.push([idx, idx+food.length]);
+
+    const [kcal100, prot100, carb100, fat100] = FOODS[food];
+
+    // Look back up to 30 chars for quantity/portion words
+    const before = lower.slice(Math.max(0, idx-30), idx);
+    let portion = 1.0; // default portion multiplier (roughly 100-150g equivalent)
+    let grams = null;
+
+    // Check for gram weights like "150g" or "150 g"
+    const gramMatch = before.match(/(\d+)\s*g\b/);
+    if(gramMatch) grams = parseInt(gramMatch[1]);
+
+    // Check for number of items (eggs, dates etc)
+    const numMatch = before.match(/(\d+)\s*$/);
+    if(numMatch && !grams) portion = Math.min(parseInt(numMatch[1]), 6);
+
+    // Check portion words
+    for(const [word, mult] of Object.entries(PORTION_WORDS)){
+      if(before.includes(word)){ portion = mult; break; }
+    }
+    for(const [word, num] of Object.entries(NUM_WORDS)){
+      if(before.endsWith(word.trim()) || before.includes(' '+word)){ 
+        if(!numMatch) portion = num; break; 
+      }
+    }
+
+    // Calculate macros
+    // Default serving sizes (grams) per food type
+    const defaultGrams = {
+      'egg':55,'scrambled egg':110,'poached egg':55,'fried egg':55,
+      'banana':120,'dates':25,'medjool dates':25,
+      'flat white':200,'oat flat white':200,'cappuccino':180,'latte':250,
+      'olive oil':10,'butter':10,'furikake':8,'soy sauce':15,
+      'sourdough':40,'sourdough toast':40,'toast':40,'bread':35,'wrap':60,
+      'protein shake':300,'whey protein':30,
+      'tin':145,'can':145,
+    };
+
+    const baseG = grams || (defaultGrams[food] || 120);
+    const totalG = baseG * (grams ? 1 : portion);
+
+    results.push({
+      food,
+      grams: Math.round(totalG),
+      kcal: Math.round(kcal100 * totalG / 100),
+      protein: Math.round(prot100 * totalG / 100 * 10) / 10,
+      carbs: Math.round(carb100 * totalG / 100 * 10) / 10,
+      fat: Math.round(fat100 * totalG / 100 * 10) / 10,
+    });
+  }
+
+  return results;
+}
+
+function analyseMeal(text){
+  const combined = (text||'').toLowerCase();
+  const items = parseMealText(combined);
+
+  if(items.length === 0){
+    return null; // Nothing recognised
+  }
+
+  const totals = items.reduce((acc, item) => ({
+    kcal: acc.kcal + item.kcal,
+    protein: acc.protein + item.protein,
+    carbs: acc.carbs + item.carbs,
+    fat: acc.fat + item.fat,
+  }), {kcal:0, protein:0, carbs:0, fat:0});
+
+  // Round totals
+  totals.kcal = Math.round(totals.kcal);
+  totals.protein = Math.round(totals.protein);
+  totals.carbs = Math.round(totals.carbs);
+  totals.fat = Math.round(totals.fat);
+
+  // Build breakdown text
+  const top = items.sort((a,b)=>b.protein-a.protein).slice(0,4);
+  const breakdown = top.map(i=>`${i.food} (~${i.protein}g protein)`).join(', ');
+
+  // Verdict
+  let verdict = '';
+  if(totals.protein >= 30) verdict = `Great protein hit — ${totals.protein}g is excellent for muscle building.`;
+  else if(totals.protein >= 20) verdict = `Decent protein at ${totals.protein}g. Add a Greek yoghurt or shake to push it higher.`;
+  else verdict = `Only ${totals.protein}g protein — consider adding eggs, chicken, tuna or Greek yoghurt to boost it.`;
+
+  // Tip
+  let tip = '';
+  const proteinTarget = 100;
+  const todayProt = getTodayTotals().protein;
+  const remaining = proteinTarget - todayProt - totals.protein;
+  if(remaining > 40) tip = `You'll still need about ${remaining}g protein from your remaining meals today. A tuna salad or chicken dish for your next meal will get you there.`;
+  else if(remaining > 0) tip = `Just ${remaining}g protein left to hit your 100g daily target — a Greek yoghurt or protein shake will close it.`;
+  else tip = `You've hit your protein target for the day. 🎉 Keep eating balanced meals and you're set.`;
+
+  // Meal name — first 6 words of the text
+  const words = (text||'').trim().split(' ').slice(0,6).join(' ');
+  const mealName = words.charAt(0).toUpperCase() + words.slice(1);
+
+  return {
+    mealName,
+    calories: totals.kcal,
+    protein: totals.protein,
+    carbs: totals.carbs,
+    fat: totals.fat,
+    confidence: items.length >= 3 ? 'high' : items.length >= 1 ? 'medium' : 'low',
+    breakdown: `Identified: ${breakdown}.`,
+    verdict,
+    tip,
+    itemsFound: items,
+  };
+}
+
+async function scanMeal(){
+  const note=(document.getElementById('mealNote')?.value||'').trim();
+  let mainDesc='';
+
+  if(currentMode==='photo'){
+    if(!currentPhotoBase64){
+      alert('Please upload a photo first using the Camera or Gallery buttons.');
+      return;
+    }
+    mainDesc=(document.getElementById('photoDescription')?.value||'').trim();
+  } else {
+    mainDesc=(document.getElementById('textDescription')?.value||'').trim();
+    if(!mainDesc){
+      alert('Please describe your meal first.\n\ne.g. "tuna salad with lentils, mozzarella, cucumber and furikake"');
+      document.getElementById('textDescription')?.focus();
+      return;
+    }
+  }
+
+  const btn=document.getElementById('scanBtn');
+  const loading=document.getElementById('scanLoading');
+  const resultEl=document.getElementById('scanResult');
+  btn.disabled=true;
+  loading.classList.add('show');
+  resultEl.classList.remove('show');
+
+  // If photo mode with description — use local database for the description part
+  // and AI for the photo analysis
+  if(currentMode==='photo' && currentPhotoBase64){
+    try{
+      const sys=`You are a nutrition expert. The user has uploaded a meal photo. Analyse it and return ONLY a raw JSON object — no markdown, no backticks, no text before or after.
+
+JSON structure:
+{"mealName":"short name","calories":number,"protein":number,"carbs":number,"fat":number,"confidence":"high|medium|low","breakdown":"2-3 sentences on what you can see and approximate protein per item","verdict":"1-2 sentences — is this good for a woman building lean muscle, 55.5kg, 100g+ protein target daily","tip":"one practical tip or positive reinforcement"}
+
+All macros as plain integers in grams. Be accurate and realistic with portions.${mainDesc?' The user also says: "'+mainDesc+'"':''} ${note?' Additional note: "'+note+'"':''}`;
+
+      const resp=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          model:'claude-sonnet-4-20250514',
+          max_tokens:1024,
+          system:sys,
+          messages:[{
+            role:'user',
+            content:[
+              {type:'image',source:{type:'base64',media_type:currentPhotoMime,data:currentPhotoBase64}},
+              {type:'text',text:'Analyse this meal photo and return only the JSON.'}
+            ]
+          }]
+        })
+      });
+
+      if(!resp.ok){
+        const err=await resp.text();
+        throw new Error(`HTTP ${resp.status}: ${err.slice(0,100)}`);
+      }
+
+      const data=await resp.json();
+      if(data.error) throw new Error(data.error.message||'API error');
+
+      const raw=data.content?.find(b=>b.type==='text')?.text||'';
+      let parsed=null;
+      // Try parsing strategies
+      try{parsed=JSON.parse(raw.trim());}catch(e){}
+      if(!parsed){try{parsed=JSON.parse(raw.replace(/```json|```/gi,'').trim());}catch(e){}}
+      if(!parsed){
+        const m=raw.match(/\{[\s\S]*\}/);
+        if(m) try{parsed=JSON.parse(m[0]);}catch(e){}
+      }
+      if(!parsed) throw new Error('Could not read the response. Try again.');
+
+      // Ensure numbers
+      parsed.calories=parseInt(parsed.calories)||0;
+      parsed.protein=parseInt(parsed.protein)||0;
+      parsed.carbs=parseInt(parsed.carbs)||0;
+      parsed.fat=parseInt(parsed.fat)||0;
+
+      currentResult={...parsed,note:mainDesc||note,mode:'photo',
+        time:new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}),
+        date:todayStr(),id:Date.now()};
+      displayResult(currentResult);
+
+    }catch(err){
+      console.error(err);
+      // Fall back to local database if API fails
+      const fallback=analyseMeal((mainDesc+' '+note).trim());
+      if(fallback){
+        fallback.confidence='medium';
+        fallback.tip='AI photo analysis unavailable — result based on your description. '+fallback.tip;
+        currentResult={...fallback,note:mainDesc||note,mode:'photo',
+          time:new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}),
+          date:todayStr(),id:Date.now()};
+        displayResult(currentResult);
+      } else {
+        alert('Photo analysis failed and no foods were recognised in the description.\n\nDescribe ingredients below the photo and try again.');
+      }
+    } finally {
+      loading.classList.remove('show');
+      btn.disabled=false;
+    }
+    return;
+  }
+
+  // TEXT MODE — use local database
+  const combined=[mainDesc,note].filter(Boolean).join(' ');
+  const result=analyseMeal(combined);
+  loading.classList.remove('show');
+  btn.disabled=false;
+
+  if(!result){
+    alert('I couldn\'t recognise any ingredients.\n\nName specific foods like:\neggs, chicken, salmon, tuna, lentils, rice,\nsourdough, Greek yoghurt, mozzarella, avocado…');
+    return;
+  }
+
+  currentResult={...result,note:note||mainDesc,mode:'text',
+    time:new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}),
+    date:todayStr(),id:Date.now()};
+  displayResult(currentResult);
+}
+
+function displayResult(r){
+  document.getElementById('resultTitle').textContent = r.mealName || 'Meal analysis';
+  document.getElementById('resultTime').textContent = r.time || '';
+  document.getElementById('rKcal').textContent = r.calories || '—';
+  document.getElementById('rProt').textContent = (r.protein||'—') + 'g';
+  document.getElementById('rCarb').textContent = (r.carbs||'—') + 'g';
+  document.getElementById('rFat').textContent = (r.fat||'—') + 'g';
+
+  const t = getTodayTotals();
+  const totalProt = (t.protein||0) + (r.protein||0);
+  const pct = Math.min(100, Math.round((totalProt/100)*100));
+  document.getElementById('protBar').style.width = pct+'%';
+  document.getElementById('protBar-label').textContent = `${totalProt}g / 100g`;
+
+  let html = '';
+  if(r.breakdown) html += `<strong>What I found</strong>${r.breakdown}<br><br>`;
+  if(r.verdict) html += `<strong>For your goals</strong>${r.verdict}<br><br>`;
+  if(r.tip) html += `<strong>💡 Tip</strong>${r.tip}`;
+  if(r.confidence==='medium') html += `<br><br><em style="color:var(--muted);font-size:0.65rem">ℹ️ Medium confidence — add more ingredient detail for a more accurate result.</em>`;
+
+  document.getElementById('resultAnalysis').innerHTML = html;
+  document.getElementById('scanResult').classList.add('show');
+  document.getElementById('scanResult').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function saveMeal(){
+  if(!currentResult) return;
+  const log = getScanLog();
+  log.unshift(currentResult);
+  saveScanLog(log.slice(0,100));
+  currentResult = null;
+
+  // Reset all fields
+  document.getElementById('scanResult').classList.remove('show');
+  const preview=document.getElementById('preview');
+  if(preview){ preview.style.display='none'; preview.src=''; }
+  const ph=document.getElementById('photoPlaceholder');
+  if(ph) ph.style.display='block';
+  const dw=document.getElementById('photoDescWrap');
+  if(dw) dw.style.display='none';
+  const pd=document.getElementById('photoDescription');
+  if(pd) pd.value='';
+  const mn=document.getElementById('mealNote');
+  if(mn) mn.value='';
+  const td=document.getElementById('textDescription');
+  if(td) td.value='';
+  currentPhotoBase64=null;
+
+  renderScanHistory();
+  updateTodayTotals();
+}
+
+function getTodayTotals(){
+  const log = getScanLog(), today = todayStr();
+  const meals = log.filter(m=>m.date===today);
+  return {
+    calories: meals.reduce((a,m)=>a+(m.calories||0),0),
+    protein:  meals.reduce((a,m)=>a+(m.protein||0),0),
+    carbs:    meals.reduce((a,m)=>a+(m.carbs||0),0),
+    fat:      meals.reduce((a,m)=>a+(m.fat||0),0),
+  };
+}
+
+function updateTodayTotals(){
+  const t = getTodayTotals();
+  const ttK = document.getElementById('ttKcal');
+  const ttP = document.getElementById('ttProt');
+  const ttC = document.getElementById('ttCarb');
+  const ttF = document.getElementById('ttFat');
+  if(ttK) ttK.textContent = t.calories;
+  if(ttP) ttP.textContent = t.protein+'g';
+  if(ttC) ttC.textContent = t.carbs+'g';
+  if(ttF) ttF.textContent = t.fat+'g';
+}
+
+function deleteScan(id){
+  saveScanLog(getScanLog().filter(m=>m.id!==id));
+  renderScanHistory();
+  updateTodayTotals();
+}
+
+function renderScanHistory(){
+  updateTodayTotals();
+  const log = getScanLog(), today = todayStr();
+  const todayMeals = log.filter(m=>m.date===today);
+  const older = log.filter(m=>m.date!==today);
+  let html = '';
+
+  if(todayMeals.length===0){
+    html = `<div class="empty-scan">No meals logged today yet — describe what you eat above and tap Analyse.</div>`;
+  } else {
+    todayMeals.forEach(m=>{
+      html += `<div class="scan-log-item">
+        <div class="sli-left">
+          <h4>${m.mealName||'Meal'}</h4>
+          <p>${m.time||''}${m.note?' · '+m.note:''}</p>
+          <p style="margin-top:2px;font-size:0.65rem;color:var(--muted)">${m.protein||0}g protein · ${m.carbs||0}g carbs · ${m.fat||0}g fat</p>
+        </div>
+        <div class="sli-right">
+          <div class="sli-kcal">${m.calories||0}</div>
+          <div class="sli-prot">kcal</div>
+          <button class="sli-del" onclick="deleteScan(${m.id})">✕ remove</button>
+        </div>
+      </div>`;
+    });
+  }
+
+  if(older.length > 0){
+    html += `<div style="font-size:0.62rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);padding:14px 0 6px">Previous days</div>`;
+    const byDate = {};
+    older.forEach(m=>{if(!byDate[m.date])byDate[m.date]=[];byDate[m.date].push(m);});
+    Object.keys(byDate).slice(0,7).forEach(date=>{
+      const label = new Date(date+'T12:00:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+      html += `<div style="font-size:0.65rem;color:var(--muted);margin:6px 0 3px;font-weight:600">${label}</div>`;
+      byDate[date].forEach(m=>{
+        html += `<div class="scan-log-item">
+          <div class="sli-left">
+            <h4>${m.mealName||'Meal'}</h4>
+            <p>${m.time||''}${m.note?' · '+m.note:''}</p>
+            <p style="margin-top:2px;font-size:0.65rem;color:var(--muted)">${m.protein||0}g protein · ${m.fat||0}g fat</p>
+          </div>
+          <div class="sli-right">
+            <div class="sli-kcal">${m.calories||0}</div>
+            <div class="sli-prot">kcal</div>
+            <button class="sli-del" onclick="deleteScan(${m.id})">✕ remove</button>
+          </div>
+        </div>`;
+      });
+    });
+  }
+
+  document.getElementById('scanHistory').innerHTML = html;
+}
+
+function clearAll(){if(!confirm('Clear all data? This cannot be undone.'))return;localStorage.removeItem('sp6');S={};renderTraining();alert('All data cleared.');}
+
+// ================================================================
+// BACKUP & RESTORE
+// ================================================================
+function backupAllData(){
+  const backup={
+    version:1,
+    exportedAt:new Date().toISOString(),
+    appName:'YourProgramme',
+    state:S,
+    scanLog:getScanLog(),
+  };
+  dl(JSON.stringify(backup,null,2),`my-programme-backup-${new Date().toISOString().slice(0,10)}.json`,'application/json');
+}
+
+function restoreFromBackup(input){
+  const file=input.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const backup=JSON.parse(e.target.result);
+      if(!backup.state||backup.appName!=='YourProgramme'){
+        showRestoreMsg('❌ Not a valid backup file. Use the .json file exported from this app.',false);
+        return;
+      }
+      S=backup.state||{};
+      localStorage.setItem('sp6',JSON.stringify(S));
+      if(backup.scanLog) saveScanLog(backup.scanLog);
+      const d=new Date(backup.exportedAt).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+      showRestoreMsg(`✅ Restored! Backup from ${d}. All your data is back.`,true);
+      renderTraining();
+      if(document.getElementById('page-progress').classList.contains('active')) renderProgress();
+    }catch(err){
+      console.error(err);
+      showRestoreMsg('❌ Could not read the file. Make sure it\'s the .json backup file from this app.',false);
+    }
+    input.value='';
+  };
+  reader.readAsText(file);
+}
+
+function showRestoreMsg(msg,success){
+  const el=document.getElementById('restoreMsg');
+  if(!el)return;
+  el.textContent=msg;
+  el.style.display='block';
+  el.style.background=success?'var(--sage-light)':'var(--rose-light)';
+  el.style.color=success?'var(--sage)':'var(--rose)';
+  el.style.border=`1px solid ${success?'#b8d4b8':'var(--blush)'}`;
+  setTimeout(()=>{el.style.display='none';},6000);
+}
+
+renderTraining();
+</script>
+</body>
+</html>
